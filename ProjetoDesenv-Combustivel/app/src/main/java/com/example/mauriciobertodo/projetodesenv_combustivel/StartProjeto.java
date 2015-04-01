@@ -1,5 +1,6 @@
 package com.example.mauriciobertodo.projetodesenv_combustivel;
 
+import android.app.AlertDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -62,5 +63,30 @@ public class StartProjeto extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_start_projeto, container, false);
             return rootView;
         }
+    }
+
+    public void clickLocalizao (View view)
+    {
+        AlertDialog alet;
+        alet = new AlertDialog.Builder(this).create();
+        alet.setTitle("Botao Localização apertado");
+        alet.setMessage("Voce apertou o botao");
+        alet.show();
+    }
+    public void clickAtualizaPreco (View view)
+    {
+        AlertDialog alet;
+        alet = new AlertDialog.Builder(this).create();
+        alet.setTitle("Botao Atualizar Preço apertado");
+        alet.setMessage("Voce apertou o botao");
+        alet.show();
+    }
+    public void clickVerRelatorio (View view)
+    {
+        AlertDialog alet;
+        alet = new AlertDialog.Builder(this).create();
+        alet.setTitle("Botao Ver Relatorio apertado");
+        alet.setMessage("Voce apertou o botao");
+        alet.show();
     }
 }

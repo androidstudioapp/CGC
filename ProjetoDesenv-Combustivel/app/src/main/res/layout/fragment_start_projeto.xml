@@ -4,9 +4,42 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".StartProjeto$PlaceholderFragment">
+    tools:context=".StartProjeto$PlaceholderFragment"
+    android:background="#ff646464">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Atualiza Preço"
+        android:id="@+id/botaoAtualizarPreco"
+        style="@android:style/ButtonBar"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/botaoLocalizacao"
+        android:onClick="clickAtualizaPreco"
+        android:clickable="true" />
+
+    <Button
+        style="@android:style/ButtonBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Localização"
+        android:id="@+id/botaoLocalizacao"
+        android:layout_above="@+id/botaoAtualizarPreco"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="64dp"
+        android:clickable="true"
+        android:onClick="clickLocalizao" />
+
+    <Button
+        style="@android:style/ButtonBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver Relatorio"
+        android:id="@+id/botaoVerRelatorio"
+        android:layout_marginTop="53dp"
+        android:layout_below="@+id/botaoAtualizarPreco"
+        android:layout_alignStart="@+id/botaoAtualizarPreco"
+        android:onClick="clickVerRelatorio"
+        android:clickable="true" />
 
 </RelativeLayout>
