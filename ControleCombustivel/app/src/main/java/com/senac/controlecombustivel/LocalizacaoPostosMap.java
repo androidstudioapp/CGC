@@ -1,11 +1,15 @@
 package com.senac.controlecombustivel;
 
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -71,6 +75,18 @@ public class LocalizacaoPostosMap extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
+
+        // Instantiates a new CircleOptions object and defines the center and radius
+        CircleOptions circleOptions = new CircleOptions()
+                .center(new LatLng(latitude, longitude))
+                .radius(1000)
+                .fillColor(new Color().argb(80,153,204,255))
+                .strokeWidth(1); // In meters
+
+        // Get back the mutable Circle
+        Circle circle = mMap.addCircle(circleOptions);
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 14.0f));
         mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("Você Está Aqui!"));
     }
 }
