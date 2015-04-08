@@ -19,7 +19,6 @@ public class LocalizacaoPostosMap extends FragmentActivity {
     // GPSTracker class
     GPSTracker gps;
 
-
     private double latitude;
     private double longitude;
 
@@ -32,6 +31,39 @@ public class LocalizacaoPostosMap extends FragmentActivity {
         longitude = getIntent().getDoubleExtra("longitude", 0.0);
 
         setUpMapIfNeeded();
+
+        addMarcacoesPostos();
+    }
+
+    private void addMarcacoesPostos() {
+        String [] titulos = {"Comercial Farroupilha",
+                        "Abastecedora de Combustiveis Bela Vista",
+                        "Posto Touring",
+                        "Firense Combustíveis Ltda",
+                        "Heinen Comercial de Combustiveis",
+                        "Posto Luna",
+                        "Psc Posto de Combustiveis",
+                        "Mabrhel Combustiveis",
+                        "Comércio de Comb Venâncio Aires Ltda",
+                        "J F A Silveira"};
+
+        LatLng [] positions = {new LatLng(-30.0254448,-51.2154747),
+                                new LatLng(-30.0331084, -51.1953674),
+                                new LatLng(-30.0373793, -51.2195615),
+                                new LatLng(-30.0417054, -51.2125330),
+                                new LatLng(-30.0407658, -51.2222989),
+                                new LatLng(-30.0465253, -51.2293121),
+                                new LatLng(-30.024792, -51.215373),
+                                new LatLng(-30.027737, -51.216322),
+                                new LatLng(-30.041878, -51.217499),
+                                new LatLng(-30.032813, -51.212606)};
+
+
+        for (int i = 0 ; i < 10 ; i++) {
+                mMap.addMarker(new MarkerOptions()
+                        .position(positions[i])
+                        .title(titulos[i]));
+        }
     }
 
     @Override
@@ -80,13 +112,16 @@ public class LocalizacaoPostosMap extends FragmentActivity {
         CircleOptions circleOptions = new CircleOptions()
                 .center(new LatLng(latitude, longitude))
                 .radius(1000)
-                .fillColor(new Color().argb(80,153,204,255))
+                .fillColor(new Color().argb(80, 153, 204, 255))
                 .strokeWidth(1); // In meters
 
         // Get back the mutable Circle
         Circle circle = mMap.addCircle(circleOptions);
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 14.0f));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("Você Está Aqui!"));
+
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .title("Você Está Aqui!"));
     }
 }
