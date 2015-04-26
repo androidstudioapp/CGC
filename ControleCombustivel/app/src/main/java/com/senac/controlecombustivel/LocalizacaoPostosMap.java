@@ -3,6 +3,7 @@ package com.senac.controlecombustivel;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -12,6 +13,8 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
 
 public class LocalizacaoPostosMap extends FragmentActivity {
 
@@ -36,33 +39,15 @@ public class LocalizacaoPostosMap extends FragmentActivity {
     }
 
     private void addMarcacoesPostos() {
-        String [] titulos = {"Comercial Farroupilha",
-                        "Abastecedora de Combustiveis Bela Vista",
-                        "Posto Touring",
-                        "Firense Combustíveis Ltda",
-                        "Heinen Comercial de Combustiveis",
-                        "Posto Luna",
-                        "Psc Posto de Combustiveis",
-                        "Mabrhel Combustiveis",
-                        "Comércio de Comb Venâncio Aires Ltda",
-                        "J F A Silveira"};
+        List<Posto> postos = WebService.getPostos();
 
-        LatLng [] positions = {new LatLng(-30.0254448,-51.2154747),
-                                new LatLng(-30.0331084, -51.1953674),
-                                new LatLng(-30.0373793, -51.2195615),
-                                new LatLng(-30.0417054, -51.2125330),
-                                new LatLng(-30.0407658, -51.2222989),
-                                new LatLng(-30.0465253, -51.2293121),
-                                new LatLng(-30.024792, -51.215373),
-                                new LatLng(-30.027737, -51.216322),
-                                new LatLng(-30.041878, -51.217499),
-                                new LatLng(-30.032813, -51.212606)};
-
-
-        for (int i = 0 ; i < 10 ; i++) {
-                mMap.addMarker(new MarkerOptions()
-                        .position(positions[i])
-                        .title(titulos[i]));
+        for(Posto p : postos) {
+            mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                            .title(p.getNome())
+                            .visible(true));
+            Log.d("Inserindo Marcação", "Titulo: " + p.getNome() +
+                                        "Posição: (" + p.getLatitude() + "," + p.getLongitude() + ")");
         }
     }
 
