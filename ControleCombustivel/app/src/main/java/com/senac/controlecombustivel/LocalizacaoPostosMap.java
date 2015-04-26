@@ -42,12 +42,18 @@ public class LocalizacaoPostosMap extends FragmentActivity {
         List<Posto> postos = WebService.getPostos();
 
         for(Posto p : postos) {
-            mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(p.getLatitude(), p.getLongitude()))
-                            .title(p.getNome())
-                            .visible(true));
-            Log.d("Inserindo Marcação", "Titulo: " + p.getNome() +
-                                        "Posição: (" + p.getLatitude() + "," + p.getLongitude() + ")");
+            if (calculateDistance(latitude, longitude, p.getLatitude(), p.getLongitude()) <= 1000.0) {
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                        .title(p.getNome())
+                        .visible(true));
+            } else {
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                        .title(p.getNome())
+                        .visible(false));
+            }
+
         }
     }
 
@@ -108,5 +114,17 @@ public class LocalizacaoPostosMap extends FragmentActivity {
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))
                 .title("Você Está Aqui!"));
+    }
+
+    private double calculateDistance(double fromLat,double fromLong,
+                                    double toLat, double toLong) {
+        double d2r = Math.PI / 180;
+        double dLong = (toLong - fromLong) * d2r;
+        double dLat = (toLat - fromLat) * d2r;
+        double a = Math.pow(Math.sin(dLat / 2.0), 2) + Math.cos(fromLat * d2r)
+                * Math.cos(toLat * d2r) * Math.pow(Math.sin(dLong / 2.0), 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double d = 6367000 * c;
+        return Math.round(d);
     }
 }
