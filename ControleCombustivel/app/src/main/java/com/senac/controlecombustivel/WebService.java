@@ -1,5 +1,6 @@
 package com.senac.controlecombustivel;
 
+import android.util.Log;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -68,6 +69,49 @@ public class WebService {
         return postos;
     }
 
+    public static List<TiposCombustivel> getCombustiveisPorPosto(int idPosto) {
+        List<TiposCombustivel> tiposCombustiveis = new ArrayList<TiposCombustivel>();
+
+        JSONObject jsonObjecTiposCombustivel = getJSONObject(URL + "/tipoCombustivelPorPosto/" + idPosto);
+
+        JSONArray jsonArrayTiposCombustivel = null;
+        try {
+            jsonArrayTiposCombustivel = jsonObjecTiposCombustivel.getJSONArray("tipoCombustivel");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0 ; i < jsonArrayTiposCombustivel.length() ; i++) {
+            try {
+
+                JSONObject jsonObjectTiposCombustivel = jsonArrayTiposCombustivel.getJSONObject(i);
+
+                int id = jsonObjectTiposCombustivel.getInt("ID");
+                double preco = jsonObjectTiposCombustivel.getDouble("PRECO");
+
+                idPosto = jsonObjectTiposCombustivel.getInt("ID_POSTO");
+                int idTipo = jsonObjectTiposCombustivel.getInt("ID_TIPO");
+                int idCombustivel = jsonObjectTiposCombustivel.getInt("ID_COMBUSTIVEL");
+
+                Posto posto = getPosto(idPosto);
+                Tipo tipo = getTipo(idTipo);
+                Combustivel combustivel = getCombustivel(idCombustivel);
+
+                Log.d("Teste WebService ", posto.toString());
+                Log.d("Teste WebService ", tipo.toString());
+                Log.d("Teste WebService ", combustivel.toString());
+
+                TiposCombustivel tiposCombustivel = new TiposCombustivel(id, posto, preco, tipo, combustivel);
+
+                tiposCombustiveis.add(i, tiposCombustivel);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return tiposCombustiveis;
+    }
+
     /**
      *
      * @param id
@@ -76,9 +120,9 @@ public class WebService {
     public static TiposCombustivel getTiposCombustivel(int id) {
         TiposCombustivel tiposCombustivel = null;
 
-        JSONObject jsonObjectTiposCombustivel = getJSONObject(URL + "/tiposcombustivel/" + id);
-
         try {
+            JSONObject jsonObjectTiposCombustivel = getJSONObject(URL + "/tipoCombustivel/" + id).getJSONArray("tipoCombustivel").getJSONObject(0);
+
             id = jsonObjectTiposCombustivel.getInt("ID");
             double preco = jsonObjectTiposCombustivel.getDouble("PRECO");
 
@@ -91,6 +135,8 @@ public class WebService {
             Combustivel combustivel = getCombustivel(idCombustivel);
 
             tiposCombustivel = new TiposCombustivel(id, posto, preco, tipo, combustivel);
+
+            Log.d("TIPOS COMBUSTIVEL", tiposCombustivel.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -105,9 +151,10 @@ public class WebService {
     public static Combustivel getCombustivel(int id) {
         Combustivel combustivel = null;
 
-        JSONObject jsonObjectCombustivel = getJSONObject(URL + "/combustivel/" + id);
-
+        JSONObject jsonObjectCombustivel = null;
         try {
+            jsonObjectCombustivel = getJSONObject(URL + "/combustivel/" + id).getJSONArray("combustivel").getJSONObject(0);
+
             id = jsonObjectCombustivel.getInt("ID");
             String nome = jsonObjectCombustivel.getString("NOME");
 
@@ -127,13 +174,16 @@ public class WebService {
     public static Tipo getTipo(int id) {
         Tipo tipo = null;
 
-        JSONObject jsonObjectTipo = getJSONObject(URL + "/tipo/" + id);
-
+        JSONObject jsonObjectTipo = null;
         try {
+            jsonObjectTipo = getJSONObject(URL + "/tipo/" + id).getJSONArray("tipo").getJSONObject(0);
+
             id = jsonObjectTipo.getInt("ID");
             String nome = jsonObjectTipo.getString("NOME");
 
             tipo = new Tipo(id, nome);
+
+            Log.d("TIPO", tipo.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -151,7 +201,7 @@ public class WebService {
         Posto posto = null;
 
         try {
-            JSONObject jsonObjectPosto = getJSONObject(URL+"/posto/"+id);
+            JSONObject jsonObjectPosto = getJSONObject(URL+"/posto/"+id).getJSONArray("posto").getJSONObject(0);
 
             id = jsonObjectPosto.getInt("ID");
             String endereco = jsonObjectPosto.getString("ENDERECO");
@@ -164,6 +214,8 @@ public class WebService {
             Bandeira bandeira = getBandeira(idBandeira);
 
             posto =  new Posto(id, endereco, nome, latitude, longitude, bandeira);
+
+            Log.d("POSTO", posto.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -179,12 +231,16 @@ public class WebService {
         Bandeira bandeira = null;
 
         try {
-            JSONObject jsonObjectBandeira = getJSONObject(URL + "/bandeira/" + id);
+            JSONObject jsonObjectBandeira;
+
+            jsonObjectBandeira = getJSONObject(URL + "/bandeira/"+id).getJSONArray("bandeira").getJSONObject(0);
 
             id = jsonObjectBandeira.getInt("ID");
             String nome = jsonObjectBandeira.getString("NOME");
 
             bandeira = new Bandeira(id, nome);
+
+            Log.d("BANDEIRA", bandeira.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

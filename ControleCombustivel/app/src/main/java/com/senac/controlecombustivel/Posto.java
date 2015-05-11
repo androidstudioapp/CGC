@@ -66,4 +66,16 @@ public class Posto {
     public Bandeira getBandeira() { return bandeira; }
 
     public void setBandeira(Bandeira bandeira) { this.bandeira = bandeira; }
+
+    @Override
+    public String toString() {
+        return "Posto{" +
+                "bandeira=" + bandeira +
+                ", id=" + id +
+                ", endereco='" + endereco + '\'' +
+                ", nome='" + nome + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
 }

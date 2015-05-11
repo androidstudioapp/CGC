@@ -158,16 +158,15 @@ public class LocalizacaoPostosMap extends FragmentActivity {
                             "\nPosição" + markerOptions.getPosition().toString(),
                     Toast.LENGTH_LONG).show();*/
 
-            if (markerOptions.isVisible()) {
+            if (markerOptions.isVisible() && !marker.getId().endsWith("0")) {
                 Intent intent = new Intent(LocalizacaoPostosMap.this, InformacoesPostoActivity.class);
                 Activity activity = new Activity();
-                intent.putExtra("id", Integer.parseInt(marker.getId().replaceAll("m", "")));
+                intent.putExtra("idPosto", Integer.parseInt(marker.getId().replaceAll("m", "")));
 
                 startActivity(intent);
+            } else {
+                Log.e("EVENTO MARCAÇÃO", "TENTATIVA DE VISUALIZAR A MARCACAO ZERO");
             }
-
-
-
             return false;
         }
     }

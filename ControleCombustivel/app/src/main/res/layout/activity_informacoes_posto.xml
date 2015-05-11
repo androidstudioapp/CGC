@@ -83,7 +83,7 @@
         <EditText
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="text"
             android:ems="10"
             android:id="@+id/et_gasolinaPreco"
             android:text="3.000"
@@ -121,7 +121,7 @@
         <EditText
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="text"
             android:ems="10"
             android:id="@+id/et_etanolPreco"
             android:text="3.000"
@@ -159,14 +159,13 @@
         <EditText
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="text"
             android:ems="10"
             android:id="@+id/et_gnvPreco"
             android:text="3.000"
             android:layout_alignBottom="@+id/bt_gnvOk"
             android:layout_toLeftOf="@+id/bt_gnvOk"
-            android:layout_toStartOf="@+id/bt_gnvOk"
-            android:layout_alignParentTop="true" />
+            android:layout_toStartOf="@+id/bt_gnvOk" />
 
         <Button
             style="?android:attr/buttonStyleSmall"

@@ -64,4 +64,15 @@ public class TiposCombustivel {
     public void setTipo(Tipo tipo) {
         this.tipo = tipo;
     }
+
+    @Override
+    public String toString() {
+        return "TiposCombustivel{" +
+                "combustivel=" + combustivel +
+                ", id=" + id +
+                ", tipo=" + tipo +
+                ", preco=" + preco +
+                ", posto=" + posto +
+                '}';
+    }
 }
