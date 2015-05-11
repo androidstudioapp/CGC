@@ -1,6 +1,9 @@
 package com.senac.controlecombustivel;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +15,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LocalizacaoPostosMap extends FragmentActivity {
@@ -21,6 +26,8 @@ public class LocalizacaoPostosMap extends FragmentActivity {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     // GPSTracker class
     GPSTracker gps;
+
+    List<MarkerOptions> marcacoes = new ArrayList<MarkerOptions>();
 
     private double latitude;
     private double longitude;
@@ -43,15 +50,21 @@ public class LocalizacaoPostosMap extends FragmentActivity {
 
         for(Posto p : postos) {
             if (calculateDistance(latitude, longitude, p.getLatitude(), p.getLongitude()) <= 1000.0) {
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(p.getLatitude(), p.getLongitude()))
-                        .title(p.getNome())
-                        .visible(true));
+                MarkerOptions markerOptions = new MarkerOptions()
+                                                .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                                                .title(p.getNome())
+                                                .visible(true);
+                mMap.addMarker(markerOptions);
+
+                marcacoes.add(markerOptions);
             } else {
-                mMap.addMarker(new MarkerOptions()
+                MarkerOptions markerOptions = new MarkerOptions()
                         .position(new LatLng(p.getLatitude(), p.getLongitude()))
                         .title(p.getNome())
-                        .visible(false));
+                        .visible(false);
+                mMap.addMarker(markerOptions);
+
+                marcacoes.add(markerOptions);
             }
 
         }
@@ -111,9 +124,15 @@ public class LocalizacaoPostosMap extends FragmentActivity {
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 14.0f));
 
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(latitude, longitude))
-                .title("Você Está Aqui!"));
+        MarkerOptions markerOptions = new MarkerOptions()
+                                    .position(new LatLng(latitude, longitude))
+                                    .title("Você Está Aqui!");
+
+        mMap.addMarker(markerOptions);
+
+        marcacoes.add(markerOptions);
+
+        mMap.setOnMarkerClickListener(new MarcadorListener());
     }
 
     private double calculateDistance(double fromLat,double fromLong,
@@ -126,5 +145,30 @@ public class LocalizacaoPostosMap extends FragmentActivity {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double d = 6367000 * c;
         return Math.round(d);
+    }
+
+    private class MarcadorListener implements GoogleMap.OnMarkerClickListener {
+
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+            MarkerOptions markerOptions = marcacoes.get(Integer.parseInt(marker.getId().replaceAll("m", "")));
+            /*Toast.makeText(getApplicationContext(),
+                    "Id da marcação " + marker.getId() +
+                            "\nTítulo " + markerOptions.getTitle() +
+                            "\nPosição" + markerOptions.getPosition().toString(),
+                    Toast.LENGTH_LONG).show();*/
+
+            if (markerOptions.isVisible()) {
+                Intent intent = new Intent(LocalizacaoPostosMap.this, InformacoesPostoActivity.class);
+                Activity activity = new Activity();
+                intent.putExtra("id", Integer.parseInt(marker.getId().replaceAll("m", "")));
+
+                startActivity(intent);
+            }
+
+
+
+            return false;
+        }
     }
 }

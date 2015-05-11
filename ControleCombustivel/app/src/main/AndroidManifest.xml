@@ -18,8 +18,6 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="22" />
@@ -50,6 +48,12 @@
             android:name=".LocalizacaoPostosMap"
             android:label="@string/title_activity_localizacao_postos_map" >
         </activity>
+
+        <activity
+            android:name=".InformacoesPostoActivity"
+            android:label="@string/title_activity_informacoes_posto" >
+        </activity>
+
     </application>
 
 </manifest>

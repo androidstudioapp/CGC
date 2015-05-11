@@ -9,6 +9,7 @@ public class Posto {
     private String nome;
     private double latitude;
     private double longitude;
+    private Bandeira bandeira;
 
     public Posto() {}
 
@@ -16,19 +17,13 @@ public class Posto {
         this.id = id;
     }
 
-    public Posto(int id, String endereco, String nome, double latitude, double longitude) {
+    public Posto(int id, String endereco, String nome, double latitude, double longitude, Bandeira bandeira) {
         this.id = id;
         this.endereco = endereco;
         this.nome = nome;
         this.latitude = latitude;
         this.longitude = longitude;
-    }
-
-    public Posto(String endereco, String nome, double latitude, double longitude) {
-        this.endereco = endereco;
-        this.nome = nome;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.setBandeira(bandeira);
     }
 
     public int getId() {
@@ -63,11 +58,12 @@ public class Posto {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
-        return longitude;
-    }
+    public double getLongitude() { return longitude; }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
+    public void setLongitude(double longitude) { this.longitude = longitude; }
+
+
+    public Bandeira getBandeira() { return bandeira; }
+
+    public void setBandeira(Bandeira bandeira) { this.bandeira = bandeira; }
 }
