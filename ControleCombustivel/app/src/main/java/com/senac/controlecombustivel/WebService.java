@@ -17,6 +17,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Dantieris on 26/04/2015.
@@ -37,7 +38,15 @@ public class WebService {
     public static List<Posto> getPostos() {
         List<Posto> postos = new ArrayList<Posto>();
 
-        JSONObject jsonObjectPostos = getJSONObject(URL + "/postos");
+        JSONObject jsonObjectPostos = null;
+        try {
+            jsonObjectPostos = new BuscarJSONObject().execute(URL + "/postos").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
 
         JSONArray jsonArrayPostos = null;
         try {
@@ -69,10 +78,22 @@ public class WebService {
         return postos;
     }
 
+    /**
+     *
+     * @param idPosto
+     * @return
+     */
     public static List<TiposCombustivel> getCombustiveisPorPosto(int idPosto) {
         List<TiposCombustivel> tiposCombustiveis = new ArrayList<TiposCombustivel>();
 
-        JSONObject jsonObjecTiposCombustivel = getJSONObject(URL + "/tipoCombustivelPorPosto/" + idPosto);
+        JSONObject jsonObjecTiposCombustivel = null;
+        try {
+            jsonObjecTiposCombustivel = new BuscarJSONObject().execute(URL + "/tipoCombustivelPorPosto/" + idPosto).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
         JSONArray jsonArrayTiposCombustivel = null;
         try {
@@ -121,7 +142,7 @@ public class WebService {
         TiposCombustivel tiposCombustivel = null;
 
         try {
-            JSONObject jsonObjectTiposCombustivel = getJSONObject(URL + "/tipoCombustivel/" + id).getJSONArray("tipoCombustivel").getJSONObject(0);
+            JSONObject jsonObjectTiposCombustivel = new BuscarJSONObject().execute(URL + "/tipoCombustivel/" + id).get().getJSONArray("tipoCombustivel").getJSONObject(0);
 
             id = jsonObjectTiposCombustivel.getInt("ID");
             double preco = jsonObjectTiposCombustivel.getDouble("PRECO");
@@ -139,6 +160,10 @@ public class WebService {
             Log.d("TIPOS COMBUSTIVEL", tiposCombustivel.toString());
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
         return tiposCombustivel;
     }
@@ -153,13 +178,17 @@ public class WebService {
 
         JSONObject jsonObjectCombustivel = null;
         try {
-            jsonObjectCombustivel = getJSONObject(URL + "/combustivel/" + id).getJSONArray("combustivel").getJSONObject(0);
+            jsonObjectCombustivel = new BuscarJSONObject().execute(URL + "/combustivel/" + id).get().getJSONArray("combustivel").getJSONObject(0);
 
             id = jsonObjectCombustivel.getInt("ID");
             String nome = jsonObjectCombustivel.getString("NOME");
 
             combustivel = new Combustivel(id, nome);
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
             e.printStackTrace();
         }
 
@@ -176,7 +205,7 @@ public class WebService {
 
         JSONObject jsonObjectTipo = null;
         try {
-            jsonObjectTipo = getJSONObject(URL + "/tipo/" + id).getJSONArray("tipo").getJSONObject(0);
+            jsonObjectTipo = new BuscarJSONObject().execute(URL + "/tipo/" + id).get().getJSONArray("tipo").getJSONObject(0);
 
             id = jsonObjectTipo.getInt("ID");
             String nome = jsonObjectTipo.getString("NOME");
@@ -185,6 +214,10 @@ public class WebService {
 
             Log.d("TIPO", tipo.toString());
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
             e.printStackTrace();
         }
 
@@ -196,12 +229,11 @@ public class WebService {
      * @param id
      * @return
      */
-
     public static Posto getPosto(int id) {
         Posto posto = null;
 
         try {
-            JSONObject jsonObjectPosto = getJSONObject(URL+"/posto/"+id).getJSONArray("posto").getJSONObject(0);
+            JSONObject jsonObjectPosto = new BuscarJSONObject().execute(URL + "/posto/" + id).get().getJSONArray("posto").getJSONObject(0);
 
             id = jsonObjectPosto.getInt("ID");
             String endereco = jsonObjectPosto.getString("ENDERECO");
@@ -218,6 +250,10 @@ public class WebService {
             Log.d("POSTO", posto.toString());
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
         return posto;
     }
@@ -233,7 +269,7 @@ public class WebService {
         try {
             JSONObject jsonObjectBandeira;
 
-            jsonObjectBandeira = getJSONObject(URL + "/bandeira/"+id).getJSONArray("bandeira").getJSONObject(0);
+            jsonObjectBandeira = new BuscarJSONObject().execute(URL + "/bandeira/" + id).get().getJSONArray("bandeira").getJSONObject(0);
 
             id = jsonObjectBandeira.getInt("ID");
             String nome = jsonObjectBandeira.getString("NOME");
@@ -243,78 +279,12 @@ public class WebService {
             Log.d("BANDEIRA", bandeira.toString());
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
 
         return bandeira;
-    }
-
-    /**
-     *
-     * @param URL
-     * @return
-     */
-    private static JSONObject getJSONObject(String URL) {
-        URL url = null;
-        String jsonString = "";
-        JSONObject jsonObject = null;
-
-        // Cria o objeto url
-        try {
-            url = new URL(URL);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        // Conecta com o url pra realizar input e output de dados.
-        URLConnection urlConnection = null;
-        try {
-            urlConnection = url.openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Pega o input stream de dados da url, e passa para uma string.
-        if(urlConnection.getDoInput()) {
-            InputStream inputStream = null;
-            try {
-                inputStream = new BufferedInputStream(urlConnection.getInputStream());
-                jsonString = lerStream(inputStream);
-                inputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // Transforma a string da url para um json array "postos".
-        try {
-            if(!jsonString.equals("")) {
-                jsonObject = new JSONObject(jsonString);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return jsonObject;
-    }
-
-    /**
-     * Recebe um input stream, carrega todos dados inseridos nele em um string builder e retorna um json string.
-     * @param inputStream
-     * @return
-     */
-    private static String lerStream(InputStream inputStream) {
-        String linha;
-        BufferedReader bfr = new BufferedReader(new InputStreamReader(inputStream));
-        StringBuilder total = new StringBuilder();
-
-        try {
-            while ((linha = bfr.readLine()) != null) {
-                total.append(linha);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return total.toString();
     }
 }
