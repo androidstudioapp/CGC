@@ -101,7 +101,8 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:background="#ff979491" />
+            android:background="#ff979491"
+            android:onClick="teste"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -139,7 +140,8 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:background="#ff979491" />
+            android:background="#ff979491"
+            android:onClick="teste"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -176,7 +178,8 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:background="#ff979491" />
+            android:background="#ff979491"
+            android:onClick="teste"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

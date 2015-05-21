@@ -1,20 +1,13 @@
 package com.senac.controlecombustivel;
 
 import android.util.Log;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -40,7 +33,7 @@ public class WebService {
 
         JSONObject jsonObjectPostos = null;
         try {
-            jsonObjectPostos = new BuscarJSONObject().execute(URL + "/postos").get();
+            jsonObjectPostos = new WebServiceGET().execute(URL + "/postos").get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -88,7 +81,7 @@ public class WebService {
 
         JSONObject jsonObjecTiposCombustivel = null;
         try {
-            jsonObjecTiposCombustivel = new BuscarJSONObject().execute(URL + "/tipoCombustivelPorPosto/" + idPosto).get();
+            jsonObjecTiposCombustivel = new WebServiceGET().execute(URL + "/tipoCombustivelPorPosto/" + idPosto).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -142,7 +135,7 @@ public class WebService {
         TiposCombustivel tiposCombustivel = null;
 
         try {
-            JSONObject jsonObjectTiposCombustivel = new BuscarJSONObject().execute(URL + "/tipoCombustivel/" + id).get().getJSONArray("tipoCombustivel").getJSONObject(0);
+            JSONObject jsonObjectTiposCombustivel = new WebServiceGET().execute(URL + "/tipoCombustivel/" + id).get().getJSONArray("tipoCombustivel").getJSONObject(0);
 
             id = jsonObjectTiposCombustivel.getInt("ID");
             double preco = jsonObjectTiposCombustivel.getDouble("PRECO");
@@ -168,6 +161,18 @@ public class WebService {
         return tiposCombustivel;
     }
 
+    public static void atualizarTipoaCombustivel(TiposCombustivel tiposCombustivel) {
+        String jsonObjectString = "{\"ID\":\"" + tiposCombustivel.getId() + "\"," +
+                                "\"ID_TIPO\":\"" + tiposCombustivel.getTipo().getId() + "\"," +
+                                "\"ID_COMBUSTIVEL\":\"" + tiposCombustivel.getCombustivel().getId() + "\"," +
+                                "\"PRECO\":\"" + tiposCombustivel.getPreco() + "\"," +
+                                "\"ID_POSTO\":\"" + tiposCombustivel.getPosto().getId() + "\"}";
+
+        Log.d("WEB SERVICE ATUALIZAR", jsonObjectString);
+
+        new WebServicePOST().execute(new String[]{URL + "/atualizarPreco", jsonObjectString});
+    }
+
     /**
      * Acessa o web service, o método get combustivel que retorna um combustivel que esteja cadastrado no banco no formato json
      * o json é processado e retorna um objeto da classe Tipo.
@@ -178,7 +183,7 @@ public class WebService {
 
         JSONObject jsonObjectCombustivel = null;
         try {
-            jsonObjectCombustivel = new BuscarJSONObject().execute(URL + "/combustivel/" + id).get().getJSONArray("combustivel").getJSONObject(0);
+            jsonObjectCombustivel = new WebServiceGET().execute(URL + "/combustivel/" + id).get().getJSONArray("combustivel").getJSONObject(0);
 
             id = jsonObjectCombustivel.getInt("ID");
             String nome = jsonObjectCombustivel.getString("NOME");
@@ -205,7 +210,7 @@ public class WebService {
 
         JSONObject jsonObjectTipo = null;
         try {
-            jsonObjectTipo = new BuscarJSONObject().execute(URL + "/tipo/" + id).get().getJSONArray("tipo").getJSONObject(0);
+            jsonObjectTipo = new WebServiceGET().execute(URL + "/tipo/" + id).get().getJSONArray("tipo").getJSONObject(0);
 
             id = jsonObjectTipo.getInt("ID");
             String nome = jsonObjectTipo.getString("NOME");
@@ -233,7 +238,7 @@ public class WebService {
         Posto posto = null;
 
         try {
-            JSONObject jsonObjectPosto = new BuscarJSONObject().execute(URL + "/posto/" + id).get().getJSONArray("posto").getJSONObject(0);
+            JSONObject jsonObjectPosto = new WebServiceGET().execute(URL + "/posto/" + id).get().getJSONArray("posto").getJSONObject(0);
 
             id = jsonObjectPosto.getInt("ID");
             String endereco = jsonObjectPosto.getString("ENDERECO");
@@ -269,7 +274,7 @@ public class WebService {
         try {
             JSONObject jsonObjectBandeira;
 
-            jsonObjectBandeira = new BuscarJSONObject().execute(URL + "/bandeira/" + id).get().getJSONArray("bandeira").getJSONObject(0);
+            jsonObjectBandeira = new WebServiceGET().execute(URL + "/bandeira/" + id).get().getJSONArray("bandeira").getJSONObject(0);
 
             id = jsonObjectBandeira.getInt("ID");
             String nome = jsonObjectBandeira.getString("NOME");

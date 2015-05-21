@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 
-public class BuscarJSONObject extends AsyncTask<String, Void, JSONObject> {
+public class WebServiceGET extends AsyncTask<String, Void, JSONObject> {
 
     @Override
     protected JSONObject doInBackground(String... URL) {
@@ -49,7 +49,7 @@ public class BuscarJSONObject extends AsyncTask<String, Void, JSONObject> {
             e.printStackTrace();
         }
 
-        // Transforma a string da url para um json array "postos".
+        // Transforma a string da url para um json array.
         try {
             if (!jsonString.equals("")) {
                 jsonObject = new JSONObject(jsonString);
