@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +26,7 @@ public class InformacoesPostoActivity extends ActionBarActivity {
     private EditText et_gnvPreco;
 
     private List<TiposCombustivel> combustiveis;
-
+    private String array_spinner[];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,19 @@ public class InformacoesPostoActivity extends ActionBarActivity {
         int idPosto = getIntent().getIntExtra("idPosto",0);
 
         if (idPosto != 0) {
+
+            // Here come all the options that you wish to show depending on the
+            // size of the array.
+            array_spinner=new String[3];
+            array_spinner[0]="Gasolina";
+            array_spinner[1]="Etanol";
+            array_spinner[2]="GNV";
+
+            Spinner s = (Spinner) findViewById(R.id.spinner);
+            ArrayAdapter adapter = new ArrayAdapter(this,
+                    android.R.layout.simple_spinner_item, array_spinner);
+            s.setAdapter(adapter);
+
             TextView tv_nome = (TextView) findViewById(R.id.nome);
             TextView tv_endereco = (TextView) findViewById(R.id.endereco);
 

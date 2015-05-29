@@ -160,7 +160,6 @@ public class LocalizacaoPostosMap extends FragmentActivity {
 
             if (markerOptions.isVisible() && !marker.getId().endsWith("0")) {
                 Intent intent = new Intent(LocalizacaoPostosMap.this, InformacoesPostoActivity.class);
-                Activity activity = new Activity();
                 intent.putExtra("idPosto", Integer.parseInt(marker.getId().replaceAll("m", "")));
 
                 startActivity(intent);
