@@ -108,7 +108,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:background="#ff979491"
-                    android:onClick="teste"
+                    android:onClick="atualizaPreco"
                     android:layout_marginBottom="5dp" />
             </RelativeLayout>
 
@@ -150,7 +150,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:background="#ff979491"
-                    android:onClick="teste"
+                    android:onClick="atualizaPreco"
                     android:layout_marginBottom="5dp" />
             </RelativeLayout>
 
@@ -194,7 +194,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="false"
                     android:background="#ff979491"
-                    android:onClick="teste"
+                    android:onClick="atualizaPreco"
                     android:layout_marginBottom="5dp" />
             </RelativeLayout>
         </LinearLayout>
@@ -250,7 +250,8 @@
                     android:layout_marginRight="20dp"
                     android:layout_alignParentBottom="true"
                     android:gravity="right"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:text="50.00" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -275,7 +276,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="false"
                     android:background="#ff979491"
-                    android:onClick="teste"
+                    android:onClick="inserirAbastecimento"
                     android:layout_marginRight="5dp" />
             </RelativeLayout>
 

@@ -1,4 +1,4 @@
-package com.senac.controlecombustivel;
+package com.senac.controlecombustivel.model;
 
 import android.app.AlertDialog;
 import android.app.Service;

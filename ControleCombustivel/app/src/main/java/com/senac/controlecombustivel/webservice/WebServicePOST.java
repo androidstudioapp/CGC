@@ -1,4 +1,4 @@
-package com.senac.controlecombustivel;
+package com.senac.controlecombustivel.webservice;
 
 import android.os.AsyncTask;
 import android.util.Log;

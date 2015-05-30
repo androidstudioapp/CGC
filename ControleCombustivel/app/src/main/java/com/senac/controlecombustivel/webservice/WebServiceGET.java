@@ -1,4 +1,4 @@
-package com.senac.controlecombustivel;
+package com.senac.controlecombustivel.webservice;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

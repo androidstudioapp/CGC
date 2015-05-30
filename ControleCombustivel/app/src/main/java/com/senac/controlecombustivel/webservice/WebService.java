@@ -1,13 +1,18 @@
-package com.senac.controlecombustivel;
+package com.senac.controlecombustivel.webservice;
 
 import android.util.Log;
+
+import com.senac.controlecombustivel.model.Abastecimento;
+import com.senac.controlecombustivel.model.Bandeira;
+import com.senac.controlecombustivel.model.Combustivel;
+import com.senac.controlecombustivel.model.Posto;
+import com.senac.controlecombustivel.model.Tipo;
+import com.senac.controlecombustivel.model.TiposCombustivel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -168,9 +173,20 @@ public class WebService {
                                 "\"PRECO\":\"" + tiposCombustivel.getPreco() + "\"," +
                                 "\"ID_POSTO\":\"" + tiposCombustivel.getPosto().getId() + "\"}";
 
-        Log.d("WEB SERVICE ATUALIZAR", jsonObjectString);
+        Log.d("WS ATUALIZAR", jsonObjectString);
 
         new WebServicePOST().execute(new String[]{URL + "/atualizarPreco", jsonObjectString});
+    }
+
+    public static void inserirAbastecimento(Abastecimento abastecimento) {
+        String jsonObjectString = "{\"tipoCombustivel\":{\"id\":\"" + abastecimento.getTiposCombustivel().getId()  + "\"}," +
+                                "\"valor_total\":\"" + abastecimento.getValorTotal() + "\"," +
+                                "\"litros\":\""+abastecimento.getLitros()+"\"," +
+                                "\"id_android\":\""+abastecimento.getIdAndroid()+"\"}";
+
+        Log.d("WS ABASTECIMENTO", jsonObjectString);
+
+        new WebServicePOST().execute(new String[]{URL + "/inserirAbastecimento", jsonObjectString});
     }
 
     /**

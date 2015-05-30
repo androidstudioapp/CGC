@@ -1,13 +1,10 @@
 package com.senac.controlecombustivel;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,6 +14,9 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.senac.controlecombustivel.model.GPSTracker;
+import com.senac.controlecombustivel.model.Posto;
+import com.senac.controlecombustivel.webservice.WebService;
 
 import java.util.ArrayList;
 import java.util.List;

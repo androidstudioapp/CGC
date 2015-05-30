@@ -1,4 +1,4 @@
-package com.senac.controlecombustivel;
+package com.senac.controlecombustivel.model;
 
 /**
  * Created by Dantieris on 26/04/2015.

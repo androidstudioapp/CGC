@@ -1,10 +1,10 @@
 package com.senac.controlecombustivel;
 
+import android.content.Context;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -12,10 +12,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
+import com.senac.controlecombustivel.model.Abastecimento;
+import com.senac.controlecombustivel.model.TiposCombustivel;
+import com.senac.controlecombustivel.webservice.WebService;
+
 import java.security.InvalidParameterException;
-import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -25,8 +28,11 @@ public class InformacoesPostoActivity extends ActionBarActivity {
     private EditText et_etanolPreco;
     private EditText et_gnvPreco;
 
+    private Spinner spinner;
+
     private List<TiposCombustivel> combustiveis;
     private String array_spinner[];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +49,10 @@ public class InformacoesPostoActivity extends ActionBarActivity {
             array_spinner[1]="Etanol";
             array_spinner[2]="GNV";
 
-            Spinner s = (Spinner) findViewById(R.id.spinner);
+            spinner  = (Spinner) findViewById(R.id.spinner);
             ArrayAdapter adapter = new ArrayAdapter(this,
                     android.R.layout.simple_spinner_item, array_spinner);
-            s.setAdapter(adapter);
+            spinner.setAdapter(adapter);
 
             TextView tv_nome = (TextView) findViewById(R.id.nome);
             TextView tv_endereco = (TextView) findViewById(R.id.endereco);
@@ -80,7 +86,7 @@ public class InformacoesPostoActivity extends ActionBarActivity {
 
     }
 
-    public void teste(View view) {
+    public void atualizaPreco(View view) {
         Log.d("DEBUGANDO CLICK 'OK'", view.toString());
         Log.d("DEBUGANDO CLICK 'OK'", "" + view.getId());
 
@@ -118,4 +124,25 @@ public class InformacoesPostoActivity extends ActionBarActivity {
             default:
         }
     }
+
+    public void inserirAbastecimento(View view) {
+        EditText et_valorTotal = (EditText) findViewById(R.id.et_valorTotal);
+
+        // Se o valor total não for nulo
+        if (!et_valorTotal.getText().equals("")) {
+            TiposCombustivel tiposCombustivel = combustiveis.get(spinner.getSelectedItemPosition());
+            double valorTotal = Double.parseDouble(String.valueOf(et_valorTotal.getText()));
+            double litros = Math.round((valorTotal / tiposCombustivel.getPreco())*100.0)/100.0;
+            Date data = Calendar.getInstance().getTime();
+            String idAndroid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+
+            WebService.inserirAbastecimento(new Abastecimento(valorTotal, idAndroid, litros, tiposCombustivel, data));
+
+            Toast.makeText(this, "Abastecimento inserido", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Valor total nulo", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
 }
