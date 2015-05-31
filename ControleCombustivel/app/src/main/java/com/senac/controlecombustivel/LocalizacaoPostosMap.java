@@ -9,6 +9,8 @@ import android.util.Log;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -48,12 +50,13 @@ public class LocalizacaoPostosMap extends FragmentActivity {
     private void addMarcacoesPostos() {
         List<Posto> postos = WebService.getPostos();
 
-        for(Posto p : postos) {
+        for (Posto p : postos) {
             if (calculateDistance(latitude, longitude, p.getLatitude(), p.getLongitude()) <= 1000.0) {
                 MarkerOptions markerOptions = new MarkerOptions()
-                                                .position(new LatLng(p.getLatitude(), p.getLongitude()))
-                                                .title(p.getNome())
-                                                .visible(true);
+                        .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                        .title(p.getNome())
+                        .visible(true)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_local_gas_station));
                 mMap.addMarker(markerOptions);
 
                 marcacoes.add(markerOptions);
@@ -61,7 +64,8 @@ public class LocalizacaoPostosMap extends FragmentActivity {
                 MarkerOptions markerOptions = new MarkerOptions()
                         .position(new LatLng(p.getLatitude(), p.getLongitude()))
                         .title(p.getNome())
-                        .visible(false);
+                        .visible(false)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_local_gas_station));
                 mMap.addMarker(markerOptions);
 
                 marcacoes.add(markerOptions);
@@ -125,18 +129,17 @@ public class LocalizacaoPostosMap extends FragmentActivity {
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 14.0f));
 
         MarkerOptions markerOptions = new MarkerOptions()
-                                    .position(new LatLng(latitude, longitude))
-                                    .title("Você Está Aqui!");
+                .position(new LatLng(latitude, longitude))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_my_location));
 
         mMap.addMarker(markerOptions);
-
         marcacoes.add(markerOptions);
 
         mMap.setOnMarkerClickListener(new MarcadorListener());
     }
 
-    private double calculateDistance(double fromLat,double fromLong,
-                                    double toLat, double toLong) {
+    private double calculateDistance(double fromLat, double fromLong,
+                                     double toLat, double toLong) {
         double d2r = Math.PI / 180;
         double dLong = (toLong - fromLong) * d2r;
         double dLat = (toLat - fromLat) * d2r;
@@ -152,14 +155,10 @@ public class LocalizacaoPostosMap extends FragmentActivity {
         @Override
         public boolean onMarkerClick(Marker marker) {
             MarkerOptions markerOptions = marcacoes.get(Integer.parseInt(marker.getId().replaceAll("m", "")));
-            /*Toast.makeText(getApplicationContext(),
-                    "Id da marcação " + marker.getId() +
-                            "\nTítulo " + markerOptions.getTitle() +
-                            "\nPosição" + markerOptions.getPosition().toString(),
-                    Toast.LENGTH_LONG).show();*/
 
             if (markerOptions.isVisible() && !marker.getId().endsWith("0")) {
                 Intent intent = new Intent(LocalizacaoPostosMap.this, InformacoesPostoActivity.class);
+                // Inserindo o id do posto pra proxima tela e substituindo o 'm' do nome da marcacao por nada
                 intent.putExtra("idPosto", Integer.parseInt(marker.getId().replaceAll("m", "")));
 
                 startActivity(intent);

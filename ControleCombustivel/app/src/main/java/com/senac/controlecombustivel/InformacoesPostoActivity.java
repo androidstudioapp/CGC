@@ -5,6 +5,9 @@ import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -101,7 +104,7 @@ public class InformacoesPostoActivity extends ActionBarActivity {
                 combustiveis.get(0).setPreco(preco);
                 WebService.atualizarTipoaCombustivel(combustiveis.get(0));
 
-                Toast.makeText(this, "Preço da Gasolina atualizada", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Preco da Gasolina atualizada", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.bt_etanolOk :
                 preco = Double.parseDouble(String.valueOf(et_etanolPreco.getText()));
@@ -110,7 +113,7 @@ public class InformacoesPostoActivity extends ActionBarActivity {
                 combustiveis.get(1).setPreco(preco);
                 WebService.atualizarTipoaCombustivel(combustiveis.get(1));
 
-                Toast.makeText(this, "Preço do Etanol atualizado", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Preco do Etanol atualizado", Toast.LENGTH_LONG).show();
                 break;
             case R.id.bt_gnvOk :
                 preco = Double.parseDouble(String.valueOf(et_gnvPreco.getText()));
@@ -119,7 +122,7 @@ public class InformacoesPostoActivity extends ActionBarActivity {
                 combustiveis.get(2).setPreco(preco);
                 WebService.atualizarTipoaCombustivel(combustiveis.get(2));
 
-                Toast.makeText(this, "Preço do GNV atualizado", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Preco do GNV atualizado", Toast.LENGTH_LONG).show();
                 break;
             default:
         }
@@ -128,7 +131,7 @@ public class InformacoesPostoActivity extends ActionBarActivity {
     public void inserirAbastecimento(View view) {
         EditText et_valorTotal = (EditText) findViewById(R.id.et_valorTotal);
 
-        // Se o valor total não for nulo
+        // Se o valor total nao for nulo
         if (!et_valorTotal.getText().equals("")) {
             TiposCombustivel tiposCombustivel = combustiveis.get(spinner.getSelectedItemPosition());
             double valorTotal = Double.parseDouble(String.valueOf(et_valorTotal.getText()));
@@ -144,5 +147,25 @@ public class InformacoesPostoActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_localizacao_postos, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Log.d("ACTION BAR", "SETTINGS");
+                //openSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }

@@ -3,55 +3,85 @@ package com.senac.controlecombustivel;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.senac.controlecombustivel.model.GPSTracker;
 
-public class LocalizacaoPostos extends Activity {
+public class LocalizacaoPostos extends ActionBarActivity {
 
-        Button btnShowLocation;
+    Button btnShowLocation;
 
-        // GPSTracker class
-        GPSTracker gps;
+    // GPSTracker class
+    GPSTracker gps;
 
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_localizacao_postos);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_localizacao_postos);
 
-            btnShowLocation = (Button) findViewById(R.id.show_location);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-            final Intent intent = new Intent(this, LocalizacaoPostosMap.class);
+        btnShowLocation = (Button) findViewById(R.id.show_location);
 
-            // Show location button click event
-            btnShowLocation.setOnClickListener(new View.OnClickListener() {
+        final Intent intent = new Intent(this, LocalizacaoPostosMap.class);
 
-                @Override
-                public void onClick(View arg0) {
-                    // Create class object
-                    gps = new GPSTracker(LocalizacaoPostos.this);
+        // Show location button click event
+        btnShowLocation.setOnClickListener(new View.OnClickListener() {
 
-                    // Check if GPS enabled
-                    if(gps.canGetLocation()) {
+            @Override
+            public void onClick(View arg0) {
+                // Create class object
+                gps = new GPSTracker(LocalizacaoPostos.this);
 
-                        double latitude = gps.getLatitude();
-                        double longitude = gps.getLongitude();
+                // Check if GPS enabled
+                if (gps.canGetLocation()) {
 
-                        intent.putExtra("latitude", latitude);
-                        intent.putExtra("longitude", longitude);
+                    double latitude = gps.getLatitude();
+                    double longitude = gps.getLongitude();
 
-                        startActivity(intent);
+                    intent.putExtra("latitude", latitude);
+                    intent.putExtra("longitude", longitude);
 
-                        // \n is for new line
-                        //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-                    } else {
-                        // Can't get location.
-                        // GPS or network is not enabled.
-                        // Ask user to enable GPS/network in settings.
-                        gps.showSettingsAlert();
-                    }
+                    startActivity(intent);
+
+                    // \n is for new line
+                    //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                } else {
+                    // Can't get location.
+                    // GPS or network is not enabled.
+                    // Ask user to enable GPS/network in settings.
+                    gps.showSettingsAlert();
                 }
-            });
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_localizacao_postos, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Log.d("ACTION BAR", "SETTINGS");
+                //openSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
+
+}
