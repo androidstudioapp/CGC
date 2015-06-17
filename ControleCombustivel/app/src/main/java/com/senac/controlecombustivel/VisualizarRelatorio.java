@@ -34,8 +34,6 @@ public class VisualizarRelatorio extends ActionBarActivity {
         // Pegando a list view do layout.
         ListView listView = (ListView) findViewById(R.id.lv_relatorio_lista);
 
-        listView.setScroll
-
         // Criando os arrays que definem onde os dados vindo da lista de Map vão ficar.
         String[] de = {"data", "valor", "litros", "combustivel", "posto"};
         int[] para = {R.id.tv_relatorio_data, R.id.tv_relatorio_valorTotal, R.id.tv_relatorio_litros, R.id.tv_relatorio_tipo, R.id.tv_relatorio_posto};

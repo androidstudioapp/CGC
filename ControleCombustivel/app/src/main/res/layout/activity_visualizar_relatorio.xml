@@ -1,33 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:weightSum="1"
-    tools:context="com.senac.controlecombustivel.InformacoesPosto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center_horizontal">
 
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/scrollView" >
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-            <ListView
-                android:id="@+id/lv_relatorio_lista"
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </ScrollView>
+                android:layout_height="wrap_content"
+                android:text="Gasto Total"
+                android:textSize="26dp"
+                android:layout_marginRight="20dp"
+                android:textColor="#000" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="999,99 R$"
+                android:id="@+id/tv_relatorio_gastoTotal"
+                android:textSize="26dp"
+                android:layout_marginRight="20dp"
+                android:textColor="#000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tipo"
+                android:textSize="26dp"
+                android:layout_marginRight="20dp"
+                android:textColor="#000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gasolina Comum"
+                android:id="@+id/tv_relatorio_combustivelMaisUsado"
+                android:textSize="26dp"
+                android:layout_marginRight="20dp"
+                android:textColor="#000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Posto"
+                android:textSize="26dp"
+                android:layout_marginRight="20dp"
+                android:textColor="#000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Heinen Comercial de Combustiveis"
+                android:id="@+id/tv_relatorio_postoMaisUsado"
+                android:textSize="26dp"
+                android:layout_marginRight="20dp"
+                android:textColor="#000" />
+        </LinearLayout>
     </LinearLayout>
-</ScrollView>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv_relatorio_lista"
+        android:choiceMode="singleChoice" />
+</LinearLayout>
