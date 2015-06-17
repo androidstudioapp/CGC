@@ -83,6 +83,6 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lv_relatorio_lista"
-        android:choiceMode="singleChoice" />
+        android:id="@+id/lv_relatorio_lista" />
+
 </LinearLayout>
