@@ -8,7 +8,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
 
-    tools:context="com.senac.controlecombustivel.InformacoesPostoActivity"
+    tools:context="com.senac.controlecombustivel.InformacoesPosto"
     android:orientation="vertical"
     android:weightSum="1">
     <LinearLayout
@@ -258,7 +258,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Valor Total"
-                    android:id="@+id/tv_valorTotal"
+                    android:id="@+id/tv_relatorio_valorTotal"
                     android:layout_alignParentLeft="false"
                     android:layout_alignParentStart="false"
                     android:layout_alignParentBottom="false"

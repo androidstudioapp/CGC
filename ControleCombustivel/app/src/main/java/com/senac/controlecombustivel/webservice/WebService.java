@@ -6,6 +6,7 @@ import com.senac.controlecombustivel.model.Abastecimento;
 import com.senac.controlecombustivel.model.Bandeira;
 import com.senac.controlecombustivel.model.Combustivel;
 import com.senac.controlecombustivel.model.Posto;
+import com.senac.controlecombustivel.model.Relatorio;
 import com.senac.controlecombustivel.model.Tipo;
 import com.senac.controlecombustivel.model.TiposCombustivel;
 
@@ -13,6 +14,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -31,6 +35,7 @@ public class WebService {
     /**
      * Acessa o web service, o método get postos que retorna todos postos cadastrados no banco no formato json
      * o json é processado e getPostos() retorna uma lista com os objetos postos.
+     *
      * @return
      */
     public static List<Posto> getPostos() {
@@ -53,7 +58,7 @@ public class WebService {
             e.printStackTrace();
         }
 
-        for (int i = 0 ; i < jsonArrayPostos.length() ; i++) {
+        for (int i = 0; i < jsonArrayPostos.length(); i++) {
             try {
                 JSONObject jsonPosto = jsonArrayPostos.getJSONObject(i);
 
@@ -77,7 +82,6 @@ public class WebService {
     }
 
     /**
-     *
      * @param idPosto
      * @return
      */
@@ -100,7 +104,7 @@ public class WebService {
             e.printStackTrace();
         }
 
-        for (int i = 0 ; i < jsonArrayTiposCombustivel.length() ; i++) {
+        for (int i = 0; i < jsonArrayTiposCombustivel.length(); i++) {
             try {
 
                 JSONObject jsonObjectTiposCombustivel = jsonArrayTiposCombustivel.getJSONObject(i);
@@ -132,7 +136,6 @@ public class WebService {
     }
 
     /**
-     *
      * @param id
      * @return
      */
@@ -168,10 +171,10 @@ public class WebService {
 
     public static void atualizarTipoaCombustivel(TiposCombustivel tiposCombustivel) {
         String jsonObjectString = "{\"ID\":\"" + tiposCombustivel.getId() + "\"," +
-                                "\"ID_TIPO\":\"" + tiposCombustivel.getTipo().getId() + "\"," +
-                                "\"ID_COMBUSTIVEL\":\"" + tiposCombustivel.getCombustivel().getId() + "\"," +
-                                "\"PRECO\":\"" + tiposCombustivel.getPreco() + "\"," +
-                                "\"ID_POSTO\":\"" + tiposCombustivel.getPosto().getId() + "\"}";
+                "\"ID_TIPO\":\"" + tiposCombustivel.getTipo().getId() + "\"," +
+                "\"ID_COMBUSTIVEL\":\"" + tiposCombustivel.getCombustivel().getId() + "\"," +
+                "\"PRECO\":\"" + tiposCombustivel.getPreco() + "\"," +
+                "\"ID_POSTO\":\"" + tiposCombustivel.getPosto().getId() + "\"}";
 
         Log.d("WS ATUALIZAR", jsonObjectString);
 
@@ -179,10 +182,11 @@ public class WebService {
     }
 
     public static void inserirAbastecimento(Abastecimento abastecimento) {
-        String jsonObjectString = "{\"tipoCombustivel\":{\"id\":\"" + abastecimento.getTiposCombustivel().getId()  + "\"}," +
-                                "\"valor_total\":\"" + abastecimento.getValorTotal() + "\"," +
-                                "\"litros\":\""+abastecimento.getLitros()+"\"," +
-                                "\"id_android\":\""+abastecimento.getIdAndroid()+"\"}";
+        String jsonObjectString = "{\"tipoCombustivel\":{\"id\":\"" + abastecimento.getTiposCombustivel().getId() + "\"}," +
+                "\"valor_total\":\"" + abastecimento.getValorTotal() + "\"," +
+                "\"litros\":\"" + abastecimento.getLitros() + "\"," +
+                "\"data\":\"" + new SimpleDateFormat("yyyy-MM-dd").format(abastecimento.getData()) + "\"," +
+                "\"id_android\":\"" + abastecimento.getIdAndroid() + "\"}";
 
         Log.d("WS ABASTECIMENTO", jsonObjectString);
 
@@ -192,6 +196,7 @@ public class WebService {
     /**
      * Acessa o web service, o método get combustivel que retorna um combustivel que esteja cadastrado no banco no formato json
      * o json é processado e retorna um objeto da classe Tipo.
+     *
      * @return Um objeto Tipo.
      */
     public static Combustivel getCombustivel(int id) {
@@ -219,6 +224,7 @@ public class WebService {
     /**
      * Acessa o web service, o método get tipo que retorna um tipo que esteja cadastrado no banco no formato json
      * o json é processado e retorna um objeto da classe Tipo.
+     *
      * @return Um objeto Tipo.
      */
     public static Tipo getTipo(int id) {
@@ -246,7 +252,6 @@ public class WebService {
     }
 
     /**
-     *
      * @param id
      * @return
      */
@@ -266,7 +271,7 @@ public class WebService {
 
             Bandeira bandeira = getBandeira(idBandeira);
 
-            posto =  new Posto(id, endereco, nome, latitude, longitude, bandeira);
+            posto = new Posto(id, endereco, nome, latitude, longitude, bandeira);
 
             Log.d("POSTO", posto.toString());
         } catch (JSONException e) {
@@ -282,6 +287,7 @@ public class WebService {
     /**
      * Acessa o web service, o método get tipo que retorna um posto que esteja cadastrado no banco no formato json
      * o json é processado e retorna um objeto da classe Tipo.
+     *
      * @return Um objeto Tipo.
      */
     public static Bandeira getBandeira(int id) {
@@ -307,5 +313,105 @@ public class WebService {
         }
 
         return bandeira;
+    }
+
+    /**
+     * Acessa o web service, o método get postos que retorna todos abastecimentos de um android id cadastrados no banco no formato json
+     * o json é processado e getRelatorioAbastecimentos() retorna uma lista com os objetos abastecimento.
+     *
+     * @return
+     */
+    public static Relatorio getRelatorioAbastecimentos(String idAndroid) {
+        Relatorio relatorio = null;
+
+        List<Abastecimento> abastecimentos = new ArrayList<Abastecimento>();
+
+        JSONObject jsonObjectRelatorio = null;
+        try {
+            jsonObjectRelatorio = new WebServiceGET().execute(URL + "/relatorio/" + idAndroid).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        JSONObject jsonRelatorio = null;
+
+        JSONObject jsonObjectValorTotalAbastecido = null;
+        JSONObject jsonObjectPostoMaisUsado = null;
+        JSONObject jsonObjectCombustivelMaisUsado = null;
+        try {
+            Log.d("WS", jsonObjectRelatorio.toString());
+
+            jsonRelatorio = jsonObjectRelatorio.getJSONObject("relatorio");
+
+            Log.d("WS RELATORIO", jsonRelatorio.toString());
+
+            jsonObjectValorTotalAbastecido = jsonRelatorio.getJSONObject("valorTotalAbastecido");
+            jsonObjectPostoMaisUsado = jsonRelatorio.getJSONObject("postoMaisUsado");
+            jsonObjectCombustivelMaisUsado = jsonRelatorio.getJSONObject("combustivelMaisUsado");
+
+            Log.d("WS RELATORIO S", jsonRelatorio.toString());
+
+            jsonRelatorio.remove("valorTotalAbastecido");
+            jsonRelatorio.remove("postoMaisUsado");
+            jsonRelatorio.remove("combustivelMaisUsado");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        double valorTotalAbastecido = 0;
+        String postoMaisUsado = "";
+        String combustivelMaisUsado = "";
+
+        Log.d("WS VALOR", jsonObjectValorTotalAbastecido.toString());
+        Log.d("WS TIPO", jsonObjectCombustivelMaisUsado.toString());
+        Log.d("WS POSTO", jsonObjectPostoMaisUsado.toString());
+
+        try {
+            valorTotalAbastecido = jsonObjectValorTotalAbastecido.getDouble("VALOR_TOTAL_ABASTECIDO");
+            postoMaisUsado = jsonObjectPostoMaisUsado.getString("NOME");
+            combustivelMaisUsado = jsonObjectCombustivelMaisUsado.getString("NOME");
+
+            Log.d("WS VALOR", valorTotalAbastecido + "");
+            Log.d("WS POSTO", postoMaisUsado);
+            Log.d("WS COMBUSTIVEL", combustivelMaisUsado);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0 ; i < jsonRelatorio.length() ; i++) {
+            try {
+                JSONObject jsonAbastecimento = jsonRelatorio.getJSONObject(String.valueOf(i));
+
+                int id = jsonAbastecimento.getInt("ID");
+                double valorTotal = jsonAbastecimento.getDouble("VALOR_TOTAL");
+                double litros = jsonAbastecimento.getDouble("LITROS");
+
+                int mes = jsonAbastecimento.getInt("MES");
+                int ano = jsonAbastecimento.getInt("ANO");
+                int dia = jsonAbastecimento.getInt("DIA");
+
+                Calendar c = Calendar.getInstance();
+
+                c.set(ano, mes, dia);
+
+                Date data = c.getTime();
+
+                int idTiposCombustivel = jsonAbastecimento.getInt("ID_TIPOS_COMBUSTIVEL");
+
+                TiposCombustivel tiposCombustivel = getTiposCombustivel(idTiposCombustivel);
+
+                abastecimentos.add(i, new Abastecimento(id, valorTotal, idAndroid, litros, tiposCombustivel, data));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        relatorio = new Relatorio(abastecimentos, combustivelMaisUsado, postoMaisUsado, valorTotalAbastecido);
+
+        Log.d("WS RELATOIOR", relatorio.toString());
+
+        return relatorio;
     }
 }

@@ -7,4 +7,5 @@
     <string name="title_activity_informacoes_posto">Informações do Posto</string>
     <string name="title_activity_abastecimento">AbastecimentoActivity</string>
     <string name="action_search">Busca</string>
+    <string name="title_activity_visualizar_relatorio">VisualizarRelatorio</string>
 </resources>

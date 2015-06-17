@@ -19,6 +19,15 @@ public class Abastecimento {
         this.data = data;
     }
 
+    public Abastecimento(int id, double valorTotal, String idAndroid, double litros, TiposCombustivel tiposCombustivel, Date data) {
+        this.id = id;
+        this.valorTotal = valorTotal;
+        this.idAndroid = idAndroid;
+        this.litros = litros;
+        this.tiposCombustivel = tiposCombustivel;
+        this.data = data;
+    }
+
     public Abastecimento(){}
 
     public Abastecimento(int id) {
@@ -71,5 +80,16 @@ public class Abastecimento {
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "Abastecimento{" +
+                "valorTotal=" + valorTotal +
+                ", data=" + data +
+                ", idAndroid='" + idAndroid + '\'' +
+                ", litros=" + litros +
+                ", tiposCombustivel=" + tiposCombustivel +
+                '}';
     }
 }

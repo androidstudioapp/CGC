@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class InformacoesPostoActivity extends ActionBarActivity {
+public class InformacoesPosto extends ActionBarActivity {
 
     private EditText et_gasolinaPreco;
     private EditText et_etanolPreco;

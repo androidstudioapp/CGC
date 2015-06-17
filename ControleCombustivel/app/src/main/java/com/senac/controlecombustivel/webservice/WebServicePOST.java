@@ -49,7 +49,6 @@ public class WebServicePOST extends AsyncTask<String, Void, Void> {
 
             urlConnection.setRequestProperty("Content-Length", "" +
                     Integer.toString(jsonString.getBytes().length));
-            //urlConnection.setRequestProperty("Content-Language", "en-US");
 
             urlConnection.setUseCaches(false);
             urlConnection.setDoInput(true);
@@ -70,8 +69,13 @@ public class WebServicePOST extends AsyncTask<String, Void, Void> {
                 Log.d("DEBUGANDO WS POST", lerStream(inputStream));
                 inputStream.close();
             }
+
+            urlConnection.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
+            urlConnection.disconnect();
+        } finally {
+            urlConnection.disconnect();
         }
 
         return null;

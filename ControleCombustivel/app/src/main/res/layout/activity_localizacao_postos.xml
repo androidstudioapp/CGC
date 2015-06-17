@@ -12,5 +12,22 @@
         android:id="@+id/show_location"
         android:text="Mostrar Localização"
         android:background="#ff979491"
-        android:layout_centerInParent="true" />
+        android:layout_gravity="center"
+        android:layout_marginTop="125dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="mostrarLocalizacao"/>
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/mostrar_relatorios"
+        android:text="RELATÓRIOS"
+        android:background="#ff979491"
+        android:layout_gravity="center"
+        android:layout_below="@+id/show_location"
+        android:layout_alignLeft="@+id/show_location"
+        android:layout_alignStart="@+id/show_location"
+        android:layout_marginTop="58dp"
+        android:onClick="mostrarRelatorios"/>
 </RelativeLayout>

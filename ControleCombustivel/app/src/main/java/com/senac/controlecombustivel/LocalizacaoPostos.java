@@ -3,6 +3,7 @@ package com.senac.controlecombustivel;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -16,8 +17,6 @@ import com.senac.controlecombustivel.model.GPSTracker;
 
 public class LocalizacaoPostos extends ActionBarActivity {
 
-    Button btnShowLocation;
-
     // GPSTracker class
     GPSTracker gps;
 
@@ -27,40 +26,41 @@ public class LocalizacaoPostos extends ActionBarActivity {
         setContentView(R.layout.activity_localizacao_postos);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
-        btnShowLocation = (Button) findViewById(R.id.show_location);
+    public void mostrarLocalizacao(View view) {
+        Intent intent = new Intent(this, LocalizacaoPostosMap.class);
+        // Create class object
+        gps = new GPSTracker(LocalizacaoPostos.this);
 
-        final Intent intent = new Intent(this, LocalizacaoPostosMap.class);
+        // Check if GPS enabled
+        if (gps.canGetLocation()) {
 
-        // Show location button click event
-        btnShowLocation.setOnClickListener(new View.OnClickListener() {
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
 
-            @Override
-            public void onClick(View arg0) {
-                // Create class object
-                gps = new GPSTracker(LocalizacaoPostos.this);
+            intent.putExtra("latitude", latitude);
+            intent.putExtra("longitude", longitude);
 
-                // Check if GPS enabled
-                if (gps.canGetLocation()) {
+            startActivity(intent);
 
-                    double latitude = gps.getLatitude();
-                    double longitude = gps.getLongitude();
+            // \n is for new line
+            //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+        } else {
+            // Can't get location.
+            // GPS or network is not enabled.
+            // Ask user to enable GPS/network in settings.
+            gps.showSettingsAlert();
+        }
 
-                    intent.putExtra("latitude", latitude);
-                    intent.putExtra("longitude", longitude);
+    }
 
-                    startActivity(intent);
+    public void mostrarRelatorios(View view) {
+        Intent intent = new Intent(this, VisualizarRelatorio.class);
 
-                    // \n is for new line
-                    //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-                } else {
-                    // Can't get location.
-                    // GPS or network is not enabled.
-                    // Ask user to enable GPS/network in settings.
-                    gps.showSettingsAlert();
-                }
-            }
-        });
+        intent.putExtra("idAndroid", Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID));
+
+        startActivity(intent);
     }
 
     @Override
