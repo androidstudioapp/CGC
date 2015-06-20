@@ -31,6 +31,8 @@ public class VisualizarRelatorio extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visualizar_relatorio);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // Pegando a list view do layout.
         ListView listView = (ListView) findViewById(R.id.lv_relatorio_lista);
 
@@ -88,7 +90,7 @@ public class VisualizarRelatorio extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_localizacao_postos, menu);
+        inflater.inflate(R.menu.menu_action_bar, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -99,6 +101,10 @@ public class VisualizarRelatorio extends ActionBarActivity {
             case R.id.action_settings:
                 Log.d("ACTION BAR", "SETTINGS");
                 //openSettings();
+                return true;
+            // 16908332 é o id do botão de seta para voltar.
+            case 16908332:
+                super.onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

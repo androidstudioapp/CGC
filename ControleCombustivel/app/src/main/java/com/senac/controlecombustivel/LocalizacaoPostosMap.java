@@ -3,8 +3,11 @@ package com.senac.controlecombustivel;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,7 +23,7 @@ import com.senac.controlecombustivel.webservice.WebService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocalizacaoPostosMap extends FragmentActivity {
+public class LocalizacaoPostosMap extends ActionBarActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
@@ -33,6 +36,8 @@ public class LocalizacaoPostosMap extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_localizacao_postos_map);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         latitude = getIntent().getDoubleExtra("latitude", 0.0);
         longitude = getIntent().getDoubleExtra("longitude", 0.0);
@@ -114,7 +119,7 @@ public class LocalizacaoPostosMap extends FragmentActivity {
         CircleOptions circleOptions = new CircleOptions()
                 .center(new LatLng(latitude, longitude))
                 .radius(1000)
-                .fillColor(Color.argb(80, 153, 204, 255))
+                .fillColor(Color.argb(50, 196, 0, 12))
                 .strokeWidth(1); // In meters
 
         // Get back the mutable Circle
@@ -160,6 +165,31 @@ public class LocalizacaoPostosMap extends FragmentActivity {
                 Log.e("EVENTO MARCAÇÃO", "TENTATIVA DE VISUALIZAR A MARCACAO ZERO");
             }
             return false;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_action_bar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Log.d("ACTION BAR", "SETTINGS");
+                //openSettings();
+                return true;
+            // 16908332 é o id do botão de seta para voltar.
+            case 16908332:
+                super.onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

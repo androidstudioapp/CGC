@@ -41,6 +41,8 @@ public class InformacoesPosto extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacoes_posto);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         int idPosto = getIntent().getIntExtra("idPosto",0);
 
         if (idPosto != 0) {
@@ -151,7 +153,7 @@ public class InformacoesPosto extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_localizacao_postos, menu);
+        inflater.inflate(R.menu.menu_action_bar, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -162,6 +164,10 @@ public class InformacoesPosto extends ActionBarActivity {
             case R.id.action_settings:
                 Log.d("ACTION BAR", "SETTINGS");
                 //openSettings();
+                return true;
+            // 16908332 é o id do botão de seta para voltar.
+            case 16908332:
+                super.onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

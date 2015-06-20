@@ -32,8 +32,6 @@ public class LocalizacaoPostos extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_localizacao_postos);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         gps = new GPSTracker(LocalizacaoPostos.this);
 
         // Check if GPS enabled
@@ -73,7 +71,7 @@ public class LocalizacaoPostos extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_localizacao_postos, menu);
+        inflater.inflate(R.menu.menu_action_bar, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
