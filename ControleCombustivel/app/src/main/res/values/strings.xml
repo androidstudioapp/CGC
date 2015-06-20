@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">ControleCombustivel</string>
+    <string name="app_name">Controle de Combustivel</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_localizacao_postos_map">Map</string>
+    <string name="action_settings">Configurações</string>
+    <string name="title_activity_localizacao_postos_map">Mapa</string>
     <string name="title_activity_informacoes_posto">Informações do Posto</string>
-    <string name="title_activity_abastecimento">AbastecimentoActivity</string>
+    <string name="title_activity_abastecimento">Abastecimento</string>
     <string name="action_search">Busca</string>
-    <string name="title_activity_visualizar_relatorio">VisualizarRelatorio</string>
+    <string name="title_activity_visualizar_relatorio">Visualizar Relatorios</string>
+    <string name="mostrar_localizacao">Procurar</string>
+    <string name="mostrar_relatorios">Relatórios</string>
 </resources>

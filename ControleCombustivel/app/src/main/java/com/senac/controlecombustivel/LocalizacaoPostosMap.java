@@ -2,20 +2,18 @@ package com.senac.controlecombustivel;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.senac.controlecombustivel.model.GPSTracker;
 import com.senac.controlecombustivel.model.Posto;
 import com.senac.controlecombustivel.webservice.WebService;
 
@@ -25,10 +23,8 @@ import java.util.List;
 public class LocalizacaoPostosMap extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    // GPSTracker class
-    GPSTracker gps;
 
-    List<MarkerOptions> marcacoes = new ArrayList<MarkerOptions>();
+    private List<MarkerOptions> marcacoes = new ArrayList<>();
 
     private double latitude;
     private double longitude;
@@ -114,16 +110,15 @@ public class LocalizacaoPostosMap extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-
         // Instantiates a new CircleOptions object and defines the center and radius
         CircleOptions circleOptions = new CircleOptions()
                 .center(new LatLng(latitude, longitude))
                 .radius(1000)
-                .fillColor(new Color().argb(80, 153, 204, 255))
+                .fillColor(Color.argb(80, 153, 204, 255))
                 .strokeWidth(1); // In meters
 
         // Get back the mutable Circle
-        Circle circle = mMap.addCircle(circleOptions);
+        mMap.addCircle(circleOptions);
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 14.0f));
 
