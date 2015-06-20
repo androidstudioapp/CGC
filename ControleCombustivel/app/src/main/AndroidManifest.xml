@@ -24,7 +24,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light" >
+        android:theme="@style/CustomActionBarTheme" >
         <activity
             android:name=".LocalizacaoPostos"
             android:label="@string/app_name">
@@ -48,8 +48,7 @@
         </activity>
         <activity
             android:name=".InformacoesPosto"
-            android:label="@string/title_activity_informacoes_posto"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:label="@string/title_activity_informacoes_posto">
         </activity>
         <activity
             android:name=".VisualizarRelatorio"
