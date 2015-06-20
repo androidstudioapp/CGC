@@ -21,4 +21,6 @@
     <string name="tv_relatorio_gastoTotal_texto">999,99 R$</string>
     <string name="gasto_total">Gasto Total</string>
     <string name="estatisticas">Estatísticas</string>
+    <string name="ok">ok</string>
+    <string name="preco_combustivel">Preço dos Combustíveis</string>
 </resources>

@@ -27,10 +27,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Heinen Comercial de Combustiveis"
-                android:id="@+id/nome"
-                android:textSize="15dp"
+                android:id="@+id/tv_posto_nome"
+                android:textSize="15sp"
                 android:layout_gravity="center_horizontal|top"
-                android:layout_below="@+id/endereco"
+                android:layout_below="@+id/tv_posto_endereco"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="10dp"
@@ -41,8 +41,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="R. José do Patrocínio, 707"
-                android:id="@+id/endereco"
-                android:textSize="20dp"
+                android:id="@+id/tv_posto_endereco"
+                android:textSize="20sp"
                 android:layout_gravity="center"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
@@ -55,11 +55,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Preço dos Combustíveis"
-            android:id="@+id/textView"
+            android:text="@string/preco_combustivel"
             android:layout_gravity="center_horizontal"
             android:textColor="#000000"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp" />
 
@@ -207,7 +206,7 @@
             android:id="@+id/textView4"
             android:layout_gravity="center_horizontal"
             android:textColor="#000000"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp" />
 
@@ -222,16 +221,12 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Tipo de Combustível"
-                android:id="@+id/tv_tipoCombustivel"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:id="@+id/tv_tipoCombustivel"/>
 
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:id="@+id/spinner"
-                android:spinnerMode="dropdown"
                 android:background="#ff979491"
                 android:layout_margin="5dp" />
 

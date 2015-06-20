@@ -46,20 +46,20 @@ public class InformacoesPosto extends ActionBarActivity {
 
         if (idPosto != 0) {
 
-            // Here come all the options that you wish to show depending on the
-            // size of the array.
             String[] array_spinner = new String[3];
             array_spinner[0]="Gasolina";
             array_spinner[1]="Etanol";
             array_spinner[2]="GNV";
 
             spinner  = (Spinner) findViewById(R.id.spinner);
+
             ArrayAdapter adapter = new ArrayAdapter(this,
                     android.R.layout.simple_spinner_item, array_spinner);
+
             spinner.setAdapter(adapter);
 
-            TextView tv_nome = (TextView) findViewById(R.id.nome);
-            TextView tv_endereco = (TextView) findViewById(R.id.endereco);
+            TextView tv_nome = (TextView) findViewById(R.id.tv_posto_nome);
+            TextView tv_endereco = (TextView) findViewById(R.id.tv_posto_endereco);
 
             et_gasolinaPreco = (EditText) findViewById(R.id.et_gasolinaPreco);
             et_etanolPreco = (EditText) findViewById(R.id.et_etanolPreco);
