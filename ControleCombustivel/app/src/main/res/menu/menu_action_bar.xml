@@ -3,7 +3,7 @@
     <!-- Settings, should always be in the overflow -->
     <item
         android:id="@+id/menu_relatorio"
-        android:icon="@drawable/ic_menu"
+        android:icon="@drawable/ic_dehaze_white_48dp"
         ctg:showAsAction="ifRoom"
         android:title="@string/menu_relatorio" />
 </menu>

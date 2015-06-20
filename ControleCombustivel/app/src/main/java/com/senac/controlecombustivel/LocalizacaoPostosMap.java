@@ -56,7 +56,7 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
                         .position(new LatLng(p.getLatitude(), p.getLongitude()))
                         .title(p.getNome())
                         .visible(true)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_local_gas_station));
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_local_gas_station_black_48dp));
                 mMap.addMarker(markerOptions);
 
                 marcacoes.add(markerOptions);
@@ -65,7 +65,7 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
                         .position(new LatLng(p.getLatitude(), p.getLongitude()))
                         .title(p.getNome())
                         .visible(false)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_local_gas_station));
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_local_gas_station_black_48dp));
                 mMap.addMarker(markerOptions);
 
                 marcacoes.add(markerOptions);
@@ -129,7 +129,7 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
 
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(new LatLng(latitude, longitude))
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_my_location));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_my_location_black_48dp));
 
         mMap.addMarker(markerOptions);
         marcacoes.add(markerOptions);
