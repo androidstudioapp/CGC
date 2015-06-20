@@ -7,8 +7,19 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/estatisticas"
+            android:id="@+id/textView5"
+            android:textColor="#C4000C"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:textIsSelectable="false" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -18,19 +29,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gasto Total"
-                android:textSize="26dp"
+                android:text="@string/gasto_total"
+                android:textSize="24sp"
                 android:layout_marginRight="20dp"
-                android:textColor="#000" />
+                android:textColor="#000"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="999,99 R$"
+                android:text="@string/tv_relatorio_gastoTotal_texto"
                 android:id="@+id/tv_relatorio_gastoTotal"
-                android:textSize="26dp"
+                android:textSize="24sp"
                 android:layout_marginRight="20dp"
-                android:textColor="#000" />
+                android:textColor="#000"
+                android:textStyle="normal" />
         </LinearLayout>
 
         <LinearLayout
@@ -41,19 +54,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tipo"
-                android:textSize="26dp"
+                android:text="@string/tipo"
+                android:textSize="24sp"
                 android:layout_marginRight="20dp"
-                android:textColor="#000" />
+                android:textColor="#000"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gasolina Comum"
+                android:text="@string/tv_relatorio_combustivelMaisUsado_texto"
                 android:id="@+id/tv_relatorio_combustivelMaisUsado"
-                android:textSize="26dp"
+                android:textSize="24sp"
                 android:layout_marginRight="20dp"
-                android:textColor="#000" />
+                android:textColor="#000"
+                android:textStyle="normal" />
         </LinearLayout>
 
         <LinearLayout
@@ -64,21 +79,34 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Posto"
-                android:textSize="26dp"
+                android:text="@string/posto"
+                android:textSize="24sp"
                 android:layout_marginRight="20dp"
-                android:textColor="#000" />
+                android:textColor="#000"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Heinen Comercial de Combustiveis"
+                android:text="@string/tv_relatorio_postoMaisUsado_texto"
                 android:id="@+id/tv_relatorio_postoMaisUsado"
-                android:textSize="26dp"
+                android:textSize="24sp"
                 android:layout_marginRight="20dp"
-                android:textColor="#000" />
+                android:textColor="#000"
+                android:textStyle="normal" />
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/mostrar_relatorios"
+        android:id="@+id/textView3"
+        android:textColor="#C4000C"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textIsSelectable="false" />
 
     <ListView
         android:layout_width="wrap_content"

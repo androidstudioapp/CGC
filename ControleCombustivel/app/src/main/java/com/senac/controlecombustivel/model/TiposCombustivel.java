@@ -66,7 +66,7 @@ public class TiposCombustivel {
     }
 
     public String getTipoCombustivelAbreviado() {
-        return combustivel.getNome() + " " + tipo.getNome().substring(0, 3) + ".";
+        return combustivel.getNome() + " " + tipo.getNome();
     }
 
     @Override

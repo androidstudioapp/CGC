@@ -11,18 +11,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Posto Touring"
+            android:text="@string/tv_relatorio_posto_texto"
             android:id="@+id/tv_relatorio_posto"
-            android:textSize="26dp"
+            android:textSize="20sp"
             android:layout_marginRight="20dp"
             android:textColor="#000" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gasolina Comum"
+            android:text="@string/tv_relatorio_tipo_texto"
             android:id="@+id/tv_relatorio_tipo"
-            android:textSize="26dp"
+            android:textSize="20sp"
             android:layout_marginRight="10dp"
             android:textColor="#000"
             android:textIsSelectable="false" />
@@ -36,27 +36,27 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="16/06/2015"
+            android:text="@string/tv_relatorio_data_texto"
             android:id="@+id/tv_relatorio_data"
-            android:textSize="22dp"
+            android:textSize="20sp"
             android:layout_marginRight="15dp"
             android:textColor="#000" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="78,00 R$"
+            android:text="@string/tv_relatorio_valorTotal_texto"
             android:id="@+id/tv_relatorio_valorTotal"
-            android:textSize="22dp"
+            android:textSize="20sp"
             android:layout_marginRight="15dp"
             android:textColor="#000" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="24.00 L"
+            android:text="@string/tv_relatorio_litros_texto"
             android:id="@+id/tv_relatorio_litros"
-            android:textSize="22dp"
+            android:textSize="20sp"
             android:textColor="#000" />
     </LinearLayout>
 </LinearLayout>

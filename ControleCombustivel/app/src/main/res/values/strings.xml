@@ -6,7 +6,19 @@
     <string name="title_activity_informacoes_posto">Informações do Posto</string>
     <string name="title_activity_abastecimento">Abastecimento</string>
     <string name="action_search">Busca</string>
-    <string name="title_activity_visualizar_relatorio">Visualizar Relatorios</string>
+    <string name="title_activity_visualizar_relatorio">Relatórios</string>
     <string name="mostrar_localizacao">Procurar</string>
     <string name="mostrar_relatorios">Relatórios</string>
+    <string name="tv_relatorio_litros_texto">24.00 L</string>
+    <string name="tv_relatorio_valorTotal_texto">78,00 R$</string>
+    <string name="tv_relatorio_data_texto">16/06/2015</string>
+    <string name="tv_relatorio_tipo_texto">Gasolina Comum</string>
+    <string name="tv_relatorio_posto_texto">Posto Touring</string>
+    <string name="tv_relatorio_postoMaisUsado_texto">Heinen Comercial de Combustiveis</string>
+    <string name="posto">Posto</string>
+    <string name="tv_relatorio_combustivelMaisUsado_texto">Gasolina Comum</string>
+    <string name="tipo">Tipo</string>
+    <string name="tv_relatorio_gastoTotal_texto">999,99 R$</string>
+    <string name="gasto_total">Gasto Total</string>
+    <string name="estatisticas">Estatísticas</string>
 </resources>
