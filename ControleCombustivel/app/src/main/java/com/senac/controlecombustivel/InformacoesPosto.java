@@ -1,6 +1,6 @@
 package com.senac.controlecombustivel;
 
-import android.content.Context;
+import android.content.Intent;
 import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -34,7 +34,6 @@ public class InformacoesPosto extends ActionBarActivity {
     private Spinner spinner;
 
     private List<TiposCombustivel> combustiveis;
-    private String array_spinner[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +48,7 @@ public class InformacoesPosto extends ActionBarActivity {
 
             // Here come all the options that you wish to show depending on the
             // size of the array.
-            array_spinner=new String[3];
+            String[] array_spinner = new String[3];
             array_spinner[0]="Gasolina";
             array_spinner[1]="Etanol";
             array_spinner[2]="GNV";
@@ -95,7 +94,7 @@ public class InformacoesPosto extends ActionBarActivity {
         Log.d("DEBUGANDO CLICK 'OK'", view.toString());
         Log.d("DEBUGANDO CLICK 'OK'", "" + view.getId());
 
-        double preco = 0;
+        double preco;
 
         switch (view.getId()) {
 
@@ -161,9 +160,8 @@ public class InformacoesPosto extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                Log.d("ACTION BAR", "SETTINGS");
-                //openSettings();
+            case R.id.menu_relatorio:
+                startActivity(new Intent(this, VisualizarRelatorio.class));
                 return true;
             // 16908332 é o id do botão de seta para voltar.
             case 16908332:

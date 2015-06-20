@@ -1,17 +1,12 @@
 package com.senac.controlecombustivel;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,9 +16,6 @@ import com.senac.controlecombustivel.model.GPSTracker;
 
 public class LocalizacaoPostos extends ActionBarActivity {
 
-    // GPSTracker class
-    private GPSTracker gps;
-
     private double latitude;
     private double longitude;
 
@@ -32,7 +24,7 @@ public class LocalizacaoPostos extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_localizacao_postos);
 
-        gps = new GPSTracker(LocalizacaoPostos.this);
+        GPSTracker gps = new GPSTracker(LocalizacaoPostos.this);
 
         // Check if GPS enabled
         if (gps.canGetLocation()) {
@@ -61,9 +53,6 @@ public class LocalizacaoPostos extends ActionBarActivity {
 
     public void mostrarRelatorios(View view) {
         Intent intent = new Intent(this, VisualizarRelatorio.class);
-
-        intent.putExtra("idAndroid", Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID));
-
         startActivity(intent);
     }
 
@@ -79,9 +68,8 @@ public class LocalizacaoPostos extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                Log.d("ACTION BAR", "SETTINGS");
-                //openSettings();
+            case R.id.menu_relatorio:
+                startActivity(new Intent(this, VisualizarRelatorio.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

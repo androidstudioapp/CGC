@@ -180,9 +180,8 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                Log.d("ACTION BAR", "SETTINGS");
-                //openSettings();
+            case R.id.menu_relatorio:
+                startActivity(new Intent(this, VisualizarRelatorio.class));
                 return true;
             // 16908332 é o id do botão de seta para voltar.
             case 16908332:

@@ -1,12 +1,13 @@
 package com.senac.controlecombustivel;
 
+import android.content.Intent;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -15,12 +16,11 @@ import com.senac.controlecombustivel.model.Abastecimento;
 import com.senac.controlecombustivel.model.Relatorio;
 import com.senac.controlecombustivel.webservice.WebService;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -41,7 +41,7 @@ public class VisualizarRelatorio extends ActionBarActivity {
         int[] para = {R.id.tv_relatorio_data, R.id.tv_relatorio_valorTotal, R.id.tv_relatorio_litros, R.id.tv_relatorio_tipo, R.id.tv_relatorio_posto};
 
         // Recuperando o id android pra pegar os abastecimentos.
-        String idAndroid = getIntent().getStringExtra("idAndroid");
+        String idAndroid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
         // Pegando do web service o relatório
         Relatorio relatorio = WebService.getRelatorioAbastecimentos(idAndroid);
@@ -67,12 +67,12 @@ public class VisualizarRelatorio extends ActionBarActivity {
     }
 
     public List<Map<String, Object>> getListAbastecimentos(List<Abastecimento> abastecimentos) {
-        List<Map<String, Object>> lista = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> lista = new ArrayList<>();
 
         for (Abastecimento a : abastecimentos) {
-            Map<String, Object> item = new HashMap<String, Object>();
+            Map<String, Object> item = new HashMap<>();
 
-            item.put("data", new SimpleDateFormat("dd/MM/yyyy").format(a.getData()));
+            item.put("data", new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(a.getData()));
             item.put("valor", a.getValorTotal() + " R$");
             item.put("litros", a.getLitros() + " L");
             item.put("combustivel", a.getTiposCombustivel().getTipoCombustivelAbreviado());
@@ -98,9 +98,11 @@ public class VisualizarRelatorio extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                Log.d("ACTION BAR", "SETTINGS");
-                //openSettings();
+            case R.id.menu_relatorio:
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+
                 return true;
             // 16908332 é o id do botão de seta para voltar.
             case 16908332:
