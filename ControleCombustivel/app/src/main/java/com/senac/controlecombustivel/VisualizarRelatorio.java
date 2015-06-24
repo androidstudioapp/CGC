@@ -36,14 +36,14 @@ public class VisualizarRelatorio extends ActionBarActivity {
         // Pegando a list view do layout.
         ListView listView = (ListView) findViewById(R.id.lv_relatorio_lista);
 
-        // Criando os arrays que definem onde os dados vindo da lista de Map vão ficar.
+        // Criando os arrays que definem onde os dados vindo da lista de Map vï¿½o ficar.
         String[] de = {"data", "valor", "litros", "combustivel", "posto"};
         int[] para = {R.id.tv_relatorio_data, R.id.tv_relatorio_valorTotal, R.id.tv_relatorio_litros, R.id.tv_relatorio_tipo, R.id.tv_relatorio_posto};
 
         // Recuperando o id android pra pegar os abastecimentos.
         String idAndroid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        // Pegando do web service o relatório
+        // Pegando do web service o relatï¿½rio
         Relatorio relatorio = WebService.getRelatorioAbastecimentos(idAndroid);
 
         // Pegando as views do valor total, posto e combustivel mais utilizados.
@@ -54,7 +54,7 @@ public class VisualizarRelatorio extends ActionBarActivity {
         Log.d("VISUALIZAR RELATORIO", relatorio.toString());
 
         // Definindo os valores nos text view dos atributos do relatorio, valor total, posto e combustivel mais utilizados.
-        textViewValor.setText(String.valueOf(relatorio.getValorTotal()));
+        textViewValor.setText(String.format("%.2f", relatorio.getValorTotal()) + " R$");
         textViewPosto.setText(relatorio.getPostoMaisUsado());
         textViewCombustivel.setText(relatorio.getCombustivelMaisUsado());
 
@@ -73,7 +73,7 @@ public class VisualizarRelatorio extends ActionBarActivity {
             Map<String, Object> item = new HashMap<>();
 
             item.put("data", new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(a.getData()));
-            item.put("valor", a.getValorTotal() + " R$");
+            item.put("valor", String.format("%.2f", a.getValorTotal()) + " R$");
             item.put("litros", a.getLitros() + " L");
             item.put("combustivel", a.getTiposCombustivel().getTipoCombustivelAbreviado());
             item.put("posto", a.getTiposCombustivel().getPosto().getNome());
@@ -104,7 +104,7 @@ public class VisualizarRelatorio extends ActionBarActivity {
                 startActivity(intent);
 
                 return true;
-            // 16908332 é o id do botão de seta para voltar.
+            // 16908332 ï¿½ o id do botï¿½o de seta para voltar.
             case 16908332:
                 super.onBackPressed();
                 return true;

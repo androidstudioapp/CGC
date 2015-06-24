@@ -1,12 +1,16 @@
 package com.senac.controlecombustivel;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,6 +23,7 @@ public class LocalizacaoPostos extends ActionBarActivity {
     private double latitude;
     private double longitude;
 
+    @SuppressLint("ShowToast")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +47,10 @@ public class LocalizacaoPostos extends ActionBarActivity {
         mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 12.0f));
     }
 
+    /**
+     * M�todo que � chamado ao clicar no bot�o "Procurar".
+     * @param view
+     */
     public void mostrarLocalizacao(View view) {
         Intent intent = new Intent(this, LocalizacaoPostosMap.class);
 
@@ -51,6 +60,10 @@ public class LocalizacaoPostos extends ActionBarActivity {
         startActivity(intent);
     }
 
+    /**
+     * M�todo que � chamado ao clicar no bot�o de "Relat�rios".
+     * @param view
+     */
     public void mostrarRelatorios(View view) {
         Intent intent = new Intent(this, VisualizarRelatorio.class);
         startActivity(intent);

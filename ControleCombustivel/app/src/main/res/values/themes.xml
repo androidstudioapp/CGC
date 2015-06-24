@@ -12,10 +12,10 @@
     <!-- ActionBar styles -->
     <style name="MyActionBar"
         parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/vermelho</item>
+        <item name="android:background">@color/grease_fire</item>
 
-        <item name="background">@color/vermelho</item>
+        <item name="background">@color/grease_fire</item>
     </style>
 
-    <color name="vermelho">#C4000C</color>
+    <color name="grease_fire">#BF671F</color>
 </resources>

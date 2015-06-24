@@ -1,22 +1,17 @@
 package com.senac.controlecombustivel.webservice;
 
+import android.os.AsyncTask;
+
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONObject;
-
-import android.os.AsyncTask;
 
 public class WebServiceGET extends AsyncTask<String, Void, JSONObject> {
 
@@ -36,11 +31,12 @@ public class WebServiceGET extends AsyncTask<String, Void, JSONObject> {
         // Conecta com o url pra realizar input e output de dados.
         URLConnection urlConnection = null;
         try {
+
             urlConnection = url.openConnection();
 
             // Pega o input stream de dados da url, e passa para uma string.
             if (urlConnection.getDoInput()) {
-                InputStream inputStream = null;
+                InputStream inputStream;
                 inputStream = new BufferedInputStream(urlConnection.getInputStream());
                 jsonString = lerStream(inputStream);
                 inputStream.close();
@@ -63,9 +59,6 @@ public class WebServiceGET extends AsyncTask<String, Void, JSONObject> {
 
     /**
      * Recebe um input stream, carrega todos dados inseridos nele em um string builder e retorna um json string.
-     *
-     * @param inputStream
-     * @return
      */
     private static String lerStream(InputStream inputStream) {
         String linha;

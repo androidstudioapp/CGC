@@ -1,9 +1,14 @@
 package com.senac.controlecombustivel.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by Dantieris on 26/04/2015.
  */
-public class Posto {
+public class Posto implements Parcelable {
     private int id;
     private String endereco;
     private String nome;
@@ -77,5 +82,35 @@ public class Posto {
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // write your object's data to the passed-in Parcel
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(id);
+        out.writeString(endereco);
+        out.writeString(nome);
+    }
+
+    // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<Posto> CREATOR = new Parcelable.Creator<Posto>() {
+        public Posto createFromParcel(Parcel in) {
+            return new Posto(in);
+        }
+
+        public Posto[] newArray(int size) {
+            return new Posto[size];
+        }
+    };
+
+    // example constructor that takes a Parcel and gives you an object populated with it's values
+    private Posto(Parcel in) {
+        id = in.readInt();
+        endereco = in.readString();
+        nome = in.readString();
     }
 }

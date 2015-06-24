@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senac.controlecombustivel.model.Abastecimento;
+import com.senac.controlecombustivel.model.Posto;
 import com.senac.controlecombustivel.model.TiposCombustivel;
 import com.senac.controlecombustivel.webservice.WebService;
 
@@ -45,7 +46,6 @@ public class InformacoesPosto extends ActionBarActivity {
         int idPosto = getIntent().getIntExtra("idPosto",0);
 
         if (idPosto != 0) {
-
             String[] array_spinner = new String[3];
             array_spinner[0]="Gasolina";
             array_spinner[1]="Etanol";
@@ -53,8 +53,8 @@ public class InformacoesPosto extends ActionBarActivity {
 
             spinner  = (Spinner) findViewById(R.id.spinner);
 
-            ArrayAdapter adapter = new ArrayAdapter(this,
-                    android.R.layout.simple_spinner_item, array_spinner);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                    R.layout.spinner_layout_item, array_spinner);
 
             spinner.setAdapter(adapter);
 

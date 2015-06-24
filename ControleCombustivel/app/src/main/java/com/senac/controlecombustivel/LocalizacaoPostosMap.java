@@ -32,6 +32,9 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
     private double latitude;
     private double longitude;
 
+    private List<Posto> postos;
+
+    private LatLng posicao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,13 +45,15 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
         latitude = getIntent().getDoubleExtra("latitude", 0.0);
         longitude = getIntent().getDoubleExtra("longitude", 0.0);
 
+        posicao = new LatLng(latitude, longitude);
+
         setUpMapIfNeeded();
 
         addMarcacoesPostos();
     }
 
     private void addMarcacoesPostos() {
-        List<Posto> postos = WebService.getPostos();
+        postos = WebService.getPostos();
 
         for (Posto p : postos) {
             if (calculateDistance(latitude, longitude, p.getLatitude(), p.getLongitude()) <= 1000.0) {
@@ -115,20 +120,18 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        // Instantiates a new CircleOptions object and defines the center and radius
-        CircleOptions circleOptions = new CircleOptions()
-                .center(new LatLng(latitude, longitude))
+        // Adicionando o círculo com raio de 1000 metros.
+        mMap.addCircle(new CircleOptions()
+                .center(posicao)
                 .radius(1000)
                 .fillColor(Color.argb(50, 196, 0, 12))
-                .strokeWidth(1); // In meters
+                .strokeWidth(1));
 
-        // Get back the mutable Circle
-        mMap.addCircle(circleOptions);
-
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 14.0f));
+        // Dando zoom no mapa.
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(posicao, 14.0f));
 
         MarkerOptions markerOptions = new MarkerOptions()
-                .position(new LatLng(latitude, longitude))
+                .position(posicao)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_my_location_black_48dp));
 
         mMap.addMarker(markerOptions);
@@ -159,6 +162,8 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
                 Intent intent = new Intent(LocalizacaoPostosMap.this, InformacoesPosto.class);
                 // Inserindo o id do posto pra proxima tela e substituindo o 'm' do nome da marcacao por nada
                 intent.putExtra("idPosto", Integer.parseInt(marker.getId().replaceAll("m", "")));
+
+                intent.putExtra("posto", postos.get(Integer.parseInt(marker.getId().replaceAll("m", "")) - 1));
 
                 startActivity(intent);
             } else {

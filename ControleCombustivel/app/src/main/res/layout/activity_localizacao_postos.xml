@@ -8,45 +8,43 @@
 
     <fragment
         android:layout_width="match_parent"
-        android:layout_height="384dp"
+        android:layout_height="0dp"
         android:id="@+id/mapa"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_weight="0.20" />
+        android:layout_weight="1" />
 
-    <RelativeLayout
+    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#C4000C"
+        android:background="#BF671F"
         android:padding="10dp">
 
         <Button
-            android:layout_width="140dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/show_location"
             android:text="@string/mostrar_localizacao"
-            android:background="#D6D6D6"
+            android:background="#FFA91F"
             android:onClick="mostrarLocalizacao"
             android:layout_gravity="left"
             android:textSize="22sp"
-            android:textColor="#172E40"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="false" />
+            android:textColor="#fff"
+            android:layout_weight="0.5"
+            android:layout_marginRight="5sp" />
 
         <Button
-            android:layout_width="140dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/mostrar_relatorios"
             android:text="@string/mostrar_relatorios"
-            android:background="#D6D6D6"
+            android:background="#FFA91F"
             android:onClick="mostrarRelatorios"
             android:layout_gravity="right"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:textSize="22sp"
-            android:textColor="#172E40" />
-    </RelativeLayout>
+            android:textColor="#fff"
+            android:layout_weight="0.5"
+            android:layout_marginLeft="5sp" />
+    </LinearLayout>
 
 </LinearLayout>

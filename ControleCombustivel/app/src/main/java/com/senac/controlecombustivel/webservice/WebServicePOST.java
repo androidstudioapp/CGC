@@ -3,20 +3,15 @@ package com.senac.controlecombustivel.webservice;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.json.JSONObject;
-
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.Arrays;
 
 /**
@@ -50,7 +45,6 @@ public class WebServicePOST extends AsyncTask<String, Void, Void> {
             urlConnection.setRequestProperty("Content-Length", "" +
                     Integer.toString(jsonString.getBytes().length));
 
-            urlConnection.setUseCaches(false);
             urlConnection.setDoInput(true);
             urlConnection.setDoOutput(true);
 
