@@ -39,7 +39,8 @@ public class WebService {
     private static final String POSTO_MAIS_USADO = "postoMaisUsado";
     private static final String COMBUSTIVEL_MAIS_USADO = "combustivelMaisUsado";
 
-    public WebService() {}
+    public WebService() {
+    }
 
     /**
      * Acessa o web service, o método get postos que retorna todos postos cadastrados no banco no formato json
@@ -94,7 +95,7 @@ public class WebService {
 
         JSONObject jsonObjecTiposCombustivel = null;
         try {
-            jsonObjecTiposCombustivel = new WebServiceGET().execute(URL + TIPO_COMBUSTIVEL_POR_POSTO + SEPARADOR + idPosto  + SEPARADOR + CHAVE).get();
+            jsonObjecTiposCombustivel = new WebServiceGET().execute(URL + TIPO_COMBUSTIVEL_POR_POSTO + SEPARADOR + idPosto + SEPARADOR + CHAVE).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -138,7 +139,7 @@ public class WebService {
         TiposCombustivel tiposCombustivel = null;
 
         try {
-            JSONObject jsonObjectTiposCombustivel = new WebServiceGET().execute(URL + TIPO_COMBUSTIVEL + SEPARADOR + id  + SEPARADOR + CHAVE).get().getJSONArray(TIPO_COMBUSTIVEL).getJSONObject(0);
+            JSONObject jsonObjectTiposCombustivel = new WebServiceGET().execute(URL + TIPO_COMBUSTIVEL + SEPARADOR + id + SEPARADOR + CHAVE).get().getJSONArray(TIPO_COMBUSTIVEL).getJSONObject(0);
 
             id = jsonObjectTiposCombustivel.getInt("ID");
             double preco = jsonObjectTiposCombustivel.getDouble("PRECO");
@@ -159,26 +160,24 @@ public class WebService {
         return tiposCombustivel;
     }
 
-    public static void atualizarTipoaCombustivel(TiposCombustivel tiposCombustivel) {
+    public static void atualizarTipoaCombustivel(TiposCombustivel tiposCombustivel, String id_android) {
         String jsonObjectString = "{\"ID\":\"" + tiposCombustivel.getId() + "\"," +
-                "\"ID_TIPO\":\"" + tiposCombustivel.getTipo().getId() + "\"," +
-                "\"ID_COMBUSTIVEL\":\"" + tiposCombustivel.getCombustivel().getId() + "\"," +
-                "\"PRECO\":\"" + tiposCombustivel.getPreco() + "\"," +
-                "\"ID_POSTO\":\"" + tiposCombustivel.getPosto().getId() + "\"}";
+                                "\"PRECO\":\"" + tiposCombustivel.getPreco() + "\"," +
+                                "\"ID_ANDROID\":\"" + id_android + "\"}";
 
         Log.d("WS ATUALIZAR", jsonObjectString);
 
-        new WebServicePOST().execute(URL + ATUALIZAR_PRECO, jsonObjectString);
+        new WebServicePOST().execute(URL + ATUALIZAR_PRECO + SEPARADOR + CHAVE, jsonObjectString);
     }
 
     public static void inserirAbastecimento(Abastecimento abastecimento) {
         String jsonObjectString = "{\"" + TIPO_COMBUSTIVEL + "\":{\"id\":\"" + abastecimento.getTiposCombustivel().getId() + "\"}," +
-                "\"valor_total\":\"" + abastecimento.getValorTotal() + "\"," +
-                "\"litros\":\"" + abastecimento.getLitros() + "\"," +
-                "\"data\":\"" + new SimpleDateFormat("yyyy-MM-dd").format(abastecimento.getData()) + "\"," +
-                "\"id_android\":\"" + abastecimento.getIdAndroid() + "\"}";
+                                "\"valor_total\":\"" + abastecimento.getValorTotal() + "\"," +
+                                "\"litros\":\"" + abastecimento.getLitros() + "\"," +
+                                "\"data\":\"" + new SimpleDateFormat("yyyy-MM-dd").format(abastecimento.getData()) + "\"," +
+                                "\"id_android\":\"" + abastecimento.getIdAndroid() + "\"}";
 
-        new WebServicePOST().execute(URL + INSERIR_ABASTECIMENTO  + SEPARADOR + CHAVE, jsonObjectString);
+        new WebServicePOST().execute(URL + INSERIR_ABASTECIMENTO + SEPARADOR + CHAVE, jsonObjectString);
     }
 
     /**
@@ -234,7 +233,7 @@ public class WebService {
         Posto posto = null;
 
         try {
-            JSONObject jsonObjectPosto = new WebServiceGET().execute(URL + POSTO + SEPARADOR + id  + SEPARADOR + CHAVE).get().getJSONArray(POSTO).getJSONObject(0);
+            JSONObject jsonObjectPosto = new WebServiceGET().execute(URL + POSTO + SEPARADOR + id + SEPARADOR + CHAVE).get().getJSONArray(POSTO).getJSONObject(0);
 
             id = jsonObjectPosto.getInt("ID");
             String endereco = jsonObjectPosto.getString("ENDERECO");
@@ -295,7 +294,7 @@ public class WebService {
 
         JSONObject jsonObjectRelatorio = null;
         try {
-            jsonObjectRelatorio = new WebServiceGET().execute(URL + RELATORIO + SEPARADOR + idAndroid  + SEPARADOR + CHAVE).get();
+            jsonObjectRelatorio = new WebServiceGET().execute(URL + RELATORIO + SEPARADOR + idAndroid + SEPARADOR + CHAVE).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -331,7 +330,7 @@ public class WebService {
             e.printStackTrace();
         }
 
-        for (int i = 0 ; i < jsonRelatorio.length() ; i++) {
+        for (int i = 0; i < jsonRelatorio.length(); i++) {
             try {
                 JSONObject jsonAbastecimento = jsonRelatorio.getJSONObject(String.valueOf(i));
 
