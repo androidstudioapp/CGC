@@ -77,11 +77,9 @@ public class WebService {
                 double longitude = jsonPosto.getDouble("LONGITUDE");
 
                 int idBandeira = jsonPosto.getInt("ID_BANDEIRA");
+                String nomeBandeira = jsonPosto.getString("BANDEIRA");
 
-                @SuppressWarnings("Retirar a chamada recursiva do web service.")
-                Bandeira bandeira = getBandeira(idBandeira);
-
-                postos.add(i, new Posto(id, endereco, nome, latitude, longitude, bandeira));
+                postos.add(i, new Posto(id, endereco, nome, latitude, longitude, new Bandeira(idBandeira, nomeBandeira)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -242,11 +240,9 @@ public class WebService {
             double longitude = jsonObjectPosto.getDouble("LONGITUDE");
 
             int idBandeira = jsonObjectPosto.getInt("ID_BANDEIRA");
+            String nomeBandeira = jsonObjectPosto.getString("BANDEIRA");
 
-            @SuppressWarnings("Retirar a chamada recursiva do web service.")
-            Bandeira bandeira = getBandeira(idBandeira);
-
-            posto = new Posto(id, endereco, nome, latitude, longitude, bandeira);
+            posto = new Posto(id, endereco, nome, latitude, longitude, new Bandeira(idBandeira, nomeBandeira));
 
             Log.d("POSTO", posto.toString());
         } catch (JSONException | InterruptedException | ExecutionException e) {
