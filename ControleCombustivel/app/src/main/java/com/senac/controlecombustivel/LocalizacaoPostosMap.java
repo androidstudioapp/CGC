@@ -161,8 +161,6 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
             if (markerOptions.isVisible() && !marker.getId().endsWith("0")) {
                 Intent intent = new Intent(LocalizacaoPostosMap.this, InformacoesPosto.class);
                 // Inserindo o id do posto pra proxima tela e substituindo o 'm' do nome da marcacao por nada
-                intent.putExtra("idPosto", Integer.parseInt(marker.getId().replaceAll("m", "")));
-
                 intent.putExtra("posto", postos.get(Integer.parseInt(marker.getId().replaceAll("m", "")) - 1));
 
                 startActivity(intent);

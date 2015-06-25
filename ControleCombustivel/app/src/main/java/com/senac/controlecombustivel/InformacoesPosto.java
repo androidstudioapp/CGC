@@ -43,7 +43,9 @@ public class InformacoesPosto extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        int idPosto = getIntent().getIntExtra("idPosto",0);
+        Posto posto = getIntent().getParcelableExtra("posto");
+
+        int idPosto = posto.getId();
 
         if (idPosto != 0) {
             String[] array_spinner = new String[3];
@@ -71,8 +73,8 @@ public class InformacoesPosto extends ActionBarActivity {
                 System.out.println(t.toString());
             }
 
-            String nome = combustiveis.get(0).getPosto().getNome();
-            String endereco = combustiveis.get(0).getPosto().getEndereco();
+            String nome = posto.getNome();
+            String endereco = posto.getEndereco();
 
             double gasolinaPreco = combustiveis.get(0).getPreco();
             double etanolPreco = combustiveis.get(1).getPreco();

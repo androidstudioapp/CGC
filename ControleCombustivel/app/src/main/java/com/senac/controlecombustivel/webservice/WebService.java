@@ -26,7 +26,6 @@ public class WebService {
 
     private static final String CHAVE = "WSd55069b2050e1559c7846b75b6544104";
 
-    private static final String COMBUSTIVEL = "combustivel";
     private static final String POSTO = "posto";
     private static final String POSTOS = "postos";
     private static final String TIPO_COMBUSTIVEL = "tipoCombustivel";
@@ -113,16 +112,14 @@ public class WebService {
                 int id = jsonObjectTiposCombustivel.getInt("ID");
                 double preco = jsonObjectTiposCombustivel.getDouble("PRECO");
 
-                idPosto = jsonObjectTiposCombustivel.getInt("ID_POSTO");
-                int idTipo = jsonObjectTiposCombustivel.getInt("ID_TIPO");
-                int idCombustivel = jsonObjectTiposCombustivel.getInt("ID_COMBUSTIVEL");
+                String nomeTipo = jsonObjectTiposCombustivel.getString("TIPO");
+                String nomeCombustivel = jsonObjectTiposCombustivel.getString("COMBUSTIVEL");
 
-                @SuppressWarnings("Retirar a chamada recursiva do web service.")
-                Posto posto = getPosto(idPosto);
-                Tipo tipo = getTipo(idTipo);
-                Combustivel combustivel = getCombustivel(idCombustivel);
-
-                TiposCombustivel tiposCombustivel = new TiposCombustivel(id, posto, preco, tipo, combustivel);
+                // Os objetos Tipo e Combustivel estão com id zerado, para melhorar a performance
+                // e nao buscar atributos que nao serao utilizados
+                TiposCombustivel tiposCombustivel = new TiposCombustivel(id, null, preco,
+                                                    new Tipo(0, nomeTipo),
+                                                    new Combustivel(0, nomeCombustivel));
 
                 tiposCombustiveis.add(i, tiposCombustivel);
             } catch (JSONException e) {
@@ -133,35 +130,10 @@ public class WebService {
         return tiposCombustiveis;
     }
 
-    public static TiposCombustivel getTiposCombustivel(int id) {
-        TiposCombustivel tiposCombustivel = null;
-
-        try {
-            JSONObject jsonObjectTiposCombustivel = new WebServiceGET().execute(URL + TIPO_COMBUSTIVEL + SEPARADOR + id + SEPARADOR + CHAVE).get().getJSONArray(TIPO_COMBUSTIVEL).getJSONObject(0);
-
-            id = jsonObjectTiposCombustivel.getInt("ID");
-            double preco = jsonObjectTiposCombustivel.getDouble("PRECO");
-
-            int idPosto = jsonObjectTiposCombustivel.getInt("ID_POSTO");
-            int idTipo = jsonObjectTiposCombustivel.getInt("ID_TIPO");
-            int idCombustivel = jsonObjectTiposCombustivel.getInt("ID_COMBUSTIVEL");
-
-            @SuppressWarnings("Retirar a chamada recursiva do web service.")
-            Posto posto = getPosto(idPosto);
-            Tipo tipo = getTipo(idTipo);
-            Combustivel combustivel = getCombustivel(idCombustivel);
-
-            tiposCombustivel = new TiposCombustivel(id, posto, preco, tipo, combustivel);
-        } catch (JSONException | ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return tiposCombustivel;
-    }
-
     public static void atualizarTipoaCombustivel(TiposCombustivel tiposCombustivel, String id_android) {
         String jsonObjectString = "{\"ID\":\"" + tiposCombustivel.getId() + "\"," +
-                                "\"PRECO\":\"" + tiposCombustivel.getPreco() + "\"," +
-                                "\"ID_ANDROID\":\"" + id_android + "\"}";
+                "\"PRECO\":\"" + tiposCombustivel.getPreco() + "\"," +
+                "\"ID_ANDROID\":\"" + id_android + "\"}";
 
         Log.d("WS ATUALIZAR", jsonObjectString);
 
@@ -170,115 +142,17 @@ public class WebService {
 
     public static void inserirAbastecimento(Abastecimento abastecimento) {
         String jsonObjectString = "{\"" + TIPO_COMBUSTIVEL + "\":{\"id\":\"" + abastecimento.getTiposCombustivel().getId() + "\"}," +
-                                "\"valor_total\":\"" + abastecimento.getValorTotal() + "\"," +
-                                "\"litros\":\"" + abastecimento.getLitros() + "\"," +
-                                "\"data\":\"" + new SimpleDateFormat("yyyy-MM-dd").format(abastecimento.getData()) + "\"," +
-                                "\"id_android\":\"" + abastecimento.getIdAndroid() + "\"}";
+                "\"valor_total\":\"" + abastecimento.getValorTotal() + "\"," +
+                "\"litros\":\"" + abastecimento.getLitros() + "\"," +
+                "\"data\":\"" + new SimpleDateFormat("yyyy-MM-dd").format(abastecimento.getData()) + "\"," +
+                "\"id_android\":\"" + abastecimento.getIdAndroid() + "\"}";
 
         new WebServicePOST().execute(URL + INSERIR_ABASTECIMENTO + SEPARADOR + CHAVE, jsonObjectString);
     }
 
     /**
-     * Acessa o web service, o método get combustivel que retorna um combustivel que esteja cadastrado no banco no formato json
-     * o json é processado e retorna um objeto da classe Tipo.
-     *
-     * @return Um objeto Tipo.
-     */
-    public static Combustivel getCombustivel(int id) {
-        Combustivel combustivel = null;
-
-        JSONObject jsonObjectCombustivel = null;
-        try {
-            jsonObjectCombustivel = new WebServiceGET().execute(URL + COMBUSTIVEL + SEPARADOR + id).get().getJSONArray(COMBUSTIVEL).getJSONObject(0);
-
-            id = jsonObjectCombustivel.getInt("ID");
-            String nome = jsonObjectCombustivel.getString("NOME");
-
-            combustivel = new Combustivel(id, nome);
-        } catch (JSONException | InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        return combustivel;
-    }
-
-    @SuppressWarnings("Remover por baixa performance.")
-    public static Tipo getTipo(int id) {
-        Tipo tipo = null;
-
-        JSONObject jsonObjectTipo = null;
-        try {
-            jsonObjectTipo = new WebServiceGET().execute(URL + "/tipo/" + id).get().getJSONArray("tipo").getJSONObject(0);
-
-            id = jsonObjectTipo.getInt("ID");
-            String nome = jsonObjectTipo.getString("NOME");
-
-            tipo = new Tipo(id, nome);
-
-            Log.d("TIPO", tipo.toString());
-        } catch (JSONException | InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        return tipo;
-    }
-
-    /**
-     * @param id
-     * @return
-     */
-    public static Posto getPosto(int id) {
-        Posto posto = null;
-
-        try {
-            JSONObject jsonObjectPosto = new WebServiceGET().execute(URL + POSTO + SEPARADOR + id + SEPARADOR + CHAVE).get().getJSONArray(POSTO).getJSONObject(0);
-
-            id = jsonObjectPosto.getInt("ID");
-            String endereco = jsonObjectPosto.getString("ENDERECO");
-            String nome = jsonObjectPosto.getString("NOME");
-            double latitude = jsonObjectPosto.getDouble("LATITUDE");
-            double longitude = jsonObjectPosto.getDouble("LONGITUDE");
-
-            int idBandeira = jsonObjectPosto.getInt("ID_BANDEIRA");
-            String nomeBandeira = jsonObjectPosto.getString("BANDEIRA");
-
-            posto = new Posto(id, endereco, nome, latitude, longitude, new Bandeira(idBandeira, nomeBandeira));
-
-            Log.d("POSTO", posto.toString());
-        } catch (JSONException | InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        return posto;
-    }
-
-    @SuppressWarnings("Remover por baixa performance.")
-    public static Bandeira getBandeira(int id) {
-        Bandeira bandeira = null;
-
-        try {
-            JSONObject jsonObjectBandeira;
-
-            jsonObjectBandeira = new WebServiceGET().execute(URL + "/bandeira/" + id).get().getJSONArray("bandeira").getJSONObject(0);
-
-            id = jsonObjectBandeira.getInt("ID");
-            String nome = jsonObjectBandeira.getString("NOME");
-
-            bandeira = new Bandeira(id, nome);
-
-            Log.d("BANDEIRA", bandeira.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        return bandeira;
-    }
-
-    /**
-     * Acessa o web service, o método get postos que retorna todos abastecimentos de um android id cadastrados no banco no formato json
+     * Acessa o web service, o método get postos que retorna todos abastecimentos de um android
+     * id cadastrados no banco no formato json
      * o json é processado e getRelatorioAbastecimentos() retorna uma lista com os objetos abastecimento.
      *
      * @return
@@ -339,16 +213,21 @@ public class WebService {
                 int dia = jsonAbastecimento.getInt("DIA");
 
                 Calendar c = Calendar.getInstance();
-
                 c.set(ano, mes, dia);
-
                 Date data = c.getTime();
 
-                int idTiposCombustivel = jsonAbastecimento.getInt("ID_TIPOS_COMBUSTIVEL");
+                String nomeCombustivel = jsonAbastecimento.getString("COMBUSTIVEL");
+                String nomeTipo = jsonAbastecimento.getString("TIPO");
 
-                TiposCombustivel tiposCombustivel = getTiposCombustivel(idTiposCombustivel);
+                String nomePosto = jsonAbastecimento.getString("POSTO");
 
-                abastecimentos.add(i, new Abastecimento(id, valorTotal, idAndroid, litros, tiposCombustivel, data));
+                // Os objetos Posto, Tipo e Combustivel estão com os atributos nulos e zerados,
+                // para melhorar a performance e nao recuperar do web service, dados que nao serao utilizados
+                abastecimentos.add(i, new Abastecimento(id, valorTotal, idAndroid, litros,
+                                    new TiposCombustivel(0,
+                                            new Posto(0, null, nomePosto, 0, 0, null), 0,
+                                            new Tipo(0, nomeTipo),
+                                            new Combustivel(0, nomeCombustivel)), data));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
