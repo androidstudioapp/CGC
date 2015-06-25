@@ -21,16 +21,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-/**
- * Created by Dantieris on 26/04/2015.
- */
 public class WebService {
+    private static final String URL = "http://controledecombustivel.16mb.com/WS/";
 
-    private static final String URL = "http://controledecombustivel.16mb.com/WS";
+    private static final String CHAVE = "WSd55069b2050e1559c7846b75b6544104";
 
-    public WebService() {
+    private static final String COMBUSTIVEL = "combustivel";
+    private static final String POSTO = "posto";
+    private static final String POSTOS = "postos";
+    private static final String TIPO_COMBUSTIVEL = "tipoCombustivel";
+    private static final String TIPO_COMBUSTIVEL_POR_POSTO = "tipoCombustivelPorPosto";
+    private static final String ATUALIZAR_PRECO = "atualizarPreco";
+    private static final String INSERIR_ABASTECIMENTO = "inserirAbastecimento";
+    private static final String RELATORIO = "relatorio";
+    private static final String SEPARADOR = "/";
+    private static final String VALOR_TOTAL_ABASTECIDO = "valorTotalAbastecido";
+    private static final String POSTO_MAIS_USADO = "postoMaisUsado";
+    private static final String COMBUSTIVEL_MAIS_USADO = "combustivelMaisUsado";
 
-    }
+    public WebService() {}
 
     /**
      * Acessa o web service, o método get postos que retorna todos postos cadastrados no banco no formato json
@@ -39,21 +48,19 @@ public class WebService {
      * @return
      */
     public static List<Posto> getPostos() {
-        List<Posto> postos = new ArrayList<Posto>();
+        List<Posto> postos = new ArrayList<>();
 
         JSONObject jsonObjectPostos = null;
         try {
-            jsonObjectPostos = new WebServiceGET().execute(URL + "/postos").get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+            jsonObjectPostos = new WebServiceGET().execute(URL + POSTOS + SEPARADOR + CHAVE).get();
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
 
 
         JSONArray jsonArrayPostos = null;
         try {
-            jsonArrayPostos = jsonObjectPostos.getJSONArray("postos");
+            jsonArrayPostos = jsonObjectPostos.getJSONArray(POSTOS);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -70,6 +77,7 @@ public class WebService {
 
                 int idBandeira = jsonPosto.getInt("ID_BANDEIRA");
 
+                @SuppressWarnings("Retirar a chamada recursiva do web service.")
                 Bandeira bandeira = getBandeira(idBandeira);
 
                 postos.add(i, new Posto(id, endereco, nome, latitude, longitude, bandeira));
@@ -81,25 +89,19 @@ public class WebService {
         return postos;
     }
 
-    /**
-     * @param idPosto
-     * @return
-     */
     public static List<TiposCombustivel> getCombustiveisPorPosto(int idPosto) {
-        List<TiposCombustivel> tiposCombustiveis = new ArrayList<TiposCombustivel>();
+        List<TiposCombustivel> tiposCombustiveis = new ArrayList<>();
 
         JSONObject jsonObjecTiposCombustivel = null;
         try {
-            jsonObjecTiposCombustivel = new WebServiceGET().execute(URL + "/tipoCombustivelPorPosto/" + idPosto).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+            jsonObjecTiposCombustivel = new WebServiceGET().execute(URL + TIPO_COMBUSTIVEL_POR_POSTO + SEPARADOR + idPosto  + SEPARADOR + CHAVE).get();
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
 
         JSONArray jsonArrayTiposCombustivel = null;
         try {
-            jsonArrayTiposCombustivel = jsonObjecTiposCombustivel.getJSONArray("tipoCombustivel");
+            jsonArrayTiposCombustivel = jsonObjecTiposCombustivel.getJSONArray(TIPO_COMBUSTIVEL);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -116,13 +118,10 @@ public class WebService {
                 int idTipo = jsonObjectTiposCombustivel.getInt("ID_TIPO");
                 int idCombustivel = jsonObjectTiposCombustivel.getInt("ID_COMBUSTIVEL");
 
+                @SuppressWarnings("Retirar a chamada recursiva do web service.")
                 Posto posto = getPosto(idPosto);
                 Tipo tipo = getTipo(idTipo);
                 Combustivel combustivel = getCombustivel(idCombustivel);
-
-                Log.d("Teste WebService ", posto.toString());
-                Log.d("Teste WebService ", tipo.toString());
-                Log.d("Teste WebService ", combustivel.toString());
 
                 TiposCombustivel tiposCombustivel = new TiposCombustivel(id, posto, preco, tipo, combustivel);
 
@@ -135,15 +134,11 @@ public class WebService {
         return tiposCombustiveis;
     }
 
-    /**
-     * @param id
-     * @return
-     */
     public static TiposCombustivel getTiposCombustivel(int id) {
         TiposCombustivel tiposCombustivel = null;
 
         try {
-            JSONObject jsonObjectTiposCombustivel = new WebServiceGET().execute(URL + "/tipoCombustivel/" + id).get().getJSONArray("tipoCombustivel").getJSONObject(0);
+            JSONObject jsonObjectTiposCombustivel = new WebServiceGET().execute(URL + TIPO_COMBUSTIVEL + SEPARADOR + id  + SEPARADOR + CHAVE).get().getJSONArray(TIPO_COMBUSTIVEL).getJSONObject(0);
 
             id = jsonObjectTiposCombustivel.getInt("ID");
             double preco = jsonObjectTiposCombustivel.getDouble("PRECO");
@@ -152,18 +147,13 @@ public class WebService {
             int idTipo = jsonObjectTiposCombustivel.getInt("ID_TIPO");
             int idCombustivel = jsonObjectTiposCombustivel.getInt("ID_COMBUSTIVEL");
 
+            @SuppressWarnings("Retirar a chamada recursiva do web service.")
             Posto posto = getPosto(idPosto);
             Tipo tipo = getTipo(idTipo);
             Combustivel combustivel = getCombustivel(idCombustivel);
 
             tiposCombustivel = new TiposCombustivel(id, posto, preco, tipo, combustivel);
-
-            Log.d("TIPOS COMBUSTIVEL", tiposCombustivel.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (JSONException | ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return tiposCombustivel;
@@ -178,19 +168,17 @@ public class WebService {
 
         Log.d("WS ATUALIZAR", jsonObjectString);
 
-        new WebServicePOST().execute(new String[]{URL + "/atualizarPreco", jsonObjectString});
+        new WebServicePOST().execute(URL + ATUALIZAR_PRECO, jsonObjectString);
     }
 
     public static void inserirAbastecimento(Abastecimento abastecimento) {
-        String jsonObjectString = "{\"tipoCombustivel\":{\"id\":\"" + abastecimento.getTiposCombustivel().getId() + "\"}," +
+        String jsonObjectString = "{\"" + TIPO_COMBUSTIVEL + "\":{\"id\":\"" + abastecimento.getTiposCombustivel().getId() + "\"}," +
                 "\"valor_total\":\"" + abastecimento.getValorTotal() + "\"," +
                 "\"litros\":\"" + abastecimento.getLitros() + "\"," +
                 "\"data\":\"" + new SimpleDateFormat("yyyy-MM-dd").format(abastecimento.getData()) + "\"," +
                 "\"id_android\":\"" + abastecimento.getIdAndroid() + "\"}";
 
-        Log.d("WS ABASTECIMENTO", jsonObjectString);
-
-        new WebServicePOST().execute(new String[]{URL + "/inserirAbastecimento", jsonObjectString});
+        new WebServicePOST().execute(URL + INSERIR_ABASTECIMENTO  + SEPARADOR + CHAVE, jsonObjectString);
     }
 
     /**
@@ -204,29 +192,20 @@ public class WebService {
 
         JSONObject jsonObjectCombustivel = null;
         try {
-            jsonObjectCombustivel = new WebServiceGET().execute(URL + "/combustivel/" + id).get().getJSONArray("combustivel").getJSONObject(0);
+            jsonObjectCombustivel = new WebServiceGET().execute(URL + COMBUSTIVEL + SEPARADOR + id).get().getJSONArray(COMBUSTIVEL).getJSONObject(0);
 
             id = jsonObjectCombustivel.getInt("ID");
             String nome = jsonObjectCombustivel.getString("NOME");
 
             combustivel = new Combustivel(id, nome);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (JSONException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
 
         return combustivel;
     }
 
-    /**
-     * Acessa o web service, o método get tipo que retorna um tipo que esteja cadastrado no banco no formato json
-     * o json é processado e retorna um objeto da classe Tipo.
-     *
-     * @return Um objeto Tipo.
-     */
+    @SuppressWarnings("Remover por baixa performance.")
     public static Tipo getTipo(int id) {
         Tipo tipo = null;
 
@@ -240,11 +219,7 @@ public class WebService {
             tipo = new Tipo(id, nome);
 
             Log.d("TIPO", tipo.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (JSONException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
 
@@ -259,7 +234,7 @@ public class WebService {
         Posto posto = null;
 
         try {
-            JSONObject jsonObjectPosto = new WebServiceGET().execute(URL + "/posto/" + id).get().getJSONArray("posto").getJSONObject(0);
+            JSONObject jsonObjectPosto = new WebServiceGET().execute(URL + POSTO + SEPARADOR + id  + SEPARADOR + CHAVE).get().getJSONArray(POSTO).getJSONObject(0);
 
             id = jsonObjectPosto.getInt("ID");
             String endereco = jsonObjectPosto.getString("ENDERECO");
@@ -269,27 +244,19 @@ public class WebService {
 
             int idBandeira = jsonObjectPosto.getInt("ID_BANDEIRA");
 
+            @SuppressWarnings("Retirar a chamada recursiva do web service.")
             Bandeira bandeira = getBandeira(idBandeira);
 
             posto = new Posto(id, endereco, nome, latitude, longitude, bandeira);
 
             Log.d("POSTO", posto.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (JSONException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         return posto;
     }
 
-    /**
-     * Acessa o web service, o método get tipo que retorna um posto que esteja cadastrado no banco no formato json
-     * o json é processado e retorna um objeto da classe Tipo.
-     *
-     * @return Um objeto Tipo.
-     */
+    @SuppressWarnings("Remover por baixa performance.")
     public static Bandeira getBandeira(int id) {
         Bandeira bandeira = null;
 
@@ -324,14 +291,12 @@ public class WebService {
     public static Relatorio getRelatorioAbastecimentos(String idAndroid) {
         Relatorio relatorio = null;
 
-        List<Abastecimento> abastecimentos = new ArrayList<Abastecimento>();
+        List<Abastecimento> abastecimentos = new ArrayList<>();
 
         JSONObject jsonObjectRelatorio = null;
         try {
-            jsonObjectRelatorio = new WebServiceGET().execute(URL + "/relatorio/" + idAndroid).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+            jsonObjectRelatorio = new WebServiceGET().execute(URL + RELATORIO + SEPARADOR + idAndroid  + SEPARADOR + CHAVE).get();
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
 
@@ -341,21 +306,15 @@ public class WebService {
         JSONObject jsonObjectPostoMaisUsado = null;
         JSONObject jsonObjectCombustivelMaisUsado = null;
         try {
-            Log.d("WS", jsonObjectRelatorio.toString());
+            jsonRelatorio = jsonObjectRelatorio.getJSONObject(RELATORIO);
 
-            jsonRelatorio = jsonObjectRelatorio.getJSONObject("relatorio");
+            jsonObjectValorTotalAbastecido = jsonRelatorio.getJSONObject(VALOR_TOTAL_ABASTECIDO);
+            jsonObjectPostoMaisUsado = jsonRelatorio.getJSONObject(POSTO_MAIS_USADO);
+            jsonObjectCombustivelMaisUsado = jsonRelatorio.getJSONObject(COMBUSTIVEL_MAIS_USADO);
 
-            Log.d("WS RELATORIO", jsonRelatorio.toString());
-
-            jsonObjectValorTotalAbastecido = jsonRelatorio.getJSONObject("valorTotalAbastecido");
-            jsonObjectPostoMaisUsado = jsonRelatorio.getJSONObject("postoMaisUsado");
-            jsonObjectCombustivelMaisUsado = jsonRelatorio.getJSONObject("combustivelMaisUsado");
-
-            Log.d("WS RELATORIO S", jsonRelatorio.toString());
-
-            jsonRelatorio.remove("valorTotalAbastecido");
-            jsonRelatorio.remove("postoMaisUsado");
-            jsonRelatorio.remove("combustivelMaisUsado");
+            jsonRelatorio.remove(VALOR_TOTAL_ABASTECIDO);
+            jsonRelatorio.remove(POSTO_MAIS_USADO);
+            jsonRelatorio.remove(COMBUSTIVEL_MAIS_USADO);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -364,18 +323,10 @@ public class WebService {
         String postoMaisUsado = "";
         String combustivelMaisUsado = "";
 
-        Log.d("WS VALOR", jsonObjectValorTotalAbastecido.toString());
-        Log.d("WS TIPO", jsonObjectCombustivelMaisUsado.toString());
-        Log.d("WS POSTO", jsonObjectPostoMaisUsado.toString());
-
         try {
             valorTotalAbastecido = jsonObjectValorTotalAbastecido.getDouble("VALOR_TOTAL_ABASTECIDO");
             postoMaisUsado = jsonObjectPostoMaisUsado.getString("NOME");
             combustivelMaisUsado = jsonObjectCombustivelMaisUsado.getString("NOME");
-
-            Log.d("WS VALOR", valorTotalAbastecido + "");
-            Log.d("WS POSTO", postoMaisUsado);
-            Log.d("WS COMBUSTIVEL", combustivelMaisUsado);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -409,8 +360,6 @@ public class WebService {
         }
 
         relatorio = new Relatorio(abastecimentos, combustivelMaisUsado, postoMaisUsado, valorTotalAbastecido);
-
-        Log.d("WS RELATOIOR", relatorio.toString());
 
         return relatorio;
     }
