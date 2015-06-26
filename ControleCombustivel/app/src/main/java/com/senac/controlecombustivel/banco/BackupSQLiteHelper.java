@@ -4,9 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by Dantieris on 26/06/2015.
- */
 public class BackupSQLiteHelper extends SQLiteOpenHelper {
 
     private static final int VERSAO_BANCO_DADOS = 1;
@@ -33,10 +30,17 @@ public class BackupSQLiteHelper extends SQLiteOpenHelper {
         String CREATE_TABLE_COMBUSTIVEIS = "CREATE TABLE COMBUSTIVEIS (ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                                                                         "NOME TEXT)";
 
+        String CREATE_TABLE_TIPOS_COMBUSTIVEL = "CREATE TABLE TIPOS_COMBUSTIVEL (ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                                                                                "PRECO DOUBLE," +
+                                                                                "ID_POSTO INTEGER," +
+                                                                                "ID_TIPO INTEGER," +
+                                                                                "ID_COMBUSTIVEL)";
+
         banco.execSQL(CREATE_TABLE_POSTOS);
         banco.execSQL(CREATE_TABLE_BANDEIRAS);
         banco.execSQL(CREATE_TABLE_TIPOS);
         banco.execSQL(CREATE_TABLE_COMBUSTIVEIS);
+        banco.execSQL(CREATE_TABLE_TIPOS_COMBUSTIVEL);
 
         banco.close();
     }
@@ -47,6 +51,7 @@ public class BackupSQLiteHelper extends SQLiteOpenHelper {
         banco.execSQL("DROP TABLE IF EXISTS BANDEIRAS");
         banco.execSQL("DROP TABLE IF EXISTS TIPOS");
         banco.execSQL("DROP TABLE IF EXISTS COMBUSTIVEIS");
+        banco.execSQL("DROP TABLE IF EXISTS TIPOS_COMBUSTIVEL");
 
         this.onCreate(banco);
     }
