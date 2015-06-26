@@ -23,9 +23,9 @@ import com.senac.controlecombustivel.webservice.WebService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocalizacaoPostosMap extends ActionBarActivity {
+public class EncontrarPostosMapaActivity extends ActionBarActivity {
 
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private GoogleMap mMap; // Pode ser nulo, se o Google Play services APK naoo esta disponivel
 
     private List<MarkerOptions> marcacoes = new ArrayList<>();
 
@@ -39,17 +39,20 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_localizacao_postos_map);
+        setContentView(R.layout.activity_encontrar_postos_mapa);
 
+        // Coloca o botao de voltar na barra de acao.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // Recuperando atributos do Intent extra.
         latitude = getIntent().getDoubleExtra("latitude", 0.0);
         longitude = getIntent().getDoubleExtra("longitude", 0.0);
 
         posicao = new LatLng(latitude, longitude);
 
-        setUpMapIfNeeded();
+        criarMapaSeNecessario();
 
+        // Cria as marcacoes com os dados dos postos, e adiciona no mapa.
         addMarcacoesPostos();
     }
 
@@ -57,7 +60,7 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
         postos = WebService.getPostos();
 
         for (Posto p : postos) {
-            if (calculateDistance(latitude, longitude, p.getLatitude(), p.getLongitude()) <= 1000.0) {
+            if (calcularDistancia(latitude, longitude, p.getLatitude(), p.getLongitude()) <= 1000) {
                 MarkerOptions markerOptions = new MarkerOptions()
                         .position(new LatLng(p.getLatitude(), p.getLongitude()))
                         .title(p.getNome())
@@ -76,82 +79,76 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
 
                 marcacoes.add(markerOptions);
             }
-
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setUpMapIfNeeded();
+        criarMapaSeNecessario();
     }
 
-    /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p/>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p/>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
-     */
-    private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
+    private void criarMapaSeNecessario() {
+        // Verifica se o mapa, ainda não foi instanciado.
         if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
+            // Tenta obter o mapa do SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
-            // Check if we were successful in obtaining the map.
+            // Verifica se a obtenção do mapa, foi bem sucedida.
             if (mMap != null) {
-                setUpMap();
+                criarMapa();
             }
         }
     }
 
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p/>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
-     */
-    private void setUpMap() {
-        // Adicionando o círculo com raio de 1000 metros.
+
+    private void criarMapa() {
+        // Adicionando o circulo com raio de 1000 metros.
         mMap.addCircle(new CircleOptions()
                 .center(posicao)
                 .radius(1000)
                 .fillColor(Color.argb(100, 255, 169, 31))
                 .strokeWidth(1));
 
-        // Dando zoom no mapa.
+        // Movendo a camera para a localizacao, atual, do usuario.
         mMap.moveCamera(CameraUpdateFactory.newLatLng(posicao));
 
+        // Criando a marcacao da localizacao, atual, do usuario.
         MarkerOptions markerOptions = new MarkerOptions()
-                .position(posicao)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_my_location_black_48dp));
+                                    .position(posicao)
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_my_location_black_48dp));
 
+        // Adicionando a marcacao no mapa e na lista de marcacoes.
         mMap.addMarker(markerOptions);
         marcacoes.add(markerOptions);
 
+        // Definindo o tratador de clicks nas marcacoes
         mMap.setOnMarkerClickListener(new MarcadorListener());
     }
 
-    private double calculateDistance(double fromLat, double fromLong,
-                                     double toLat, double toLong) {
+    /**
+     * Calcula a distancia, em metros, de um ponto geografico, para outro ponto geografico,
+     * recebendo a latitude e longitude, de cada ponto.
+     *
+     * @param deLat Latitude do ponte inicial.
+     * @param deLong Longitude do ponto inicial.
+     * @param paraLat Latitude do ponto final.
+     * @param paraLong Longitude do ponto final.
+     *
+     * @return Distancia, em metros, entre os dois pontos.
+     */
+    private double calcularDistancia(double deLat, double deLong,
+                                     double paraLat, double paraLong) {
         double d2r = Math.PI / 180;
-        double dLong = (toLong - fromLong) * d2r;
-        double dLat = (toLat - fromLat) * d2r;
-        double a = Math.pow(Math.sin(dLat / 2.0), 2) + Math.cos(fromLat * d2r)
-                * Math.cos(toLat * d2r) * Math.pow(Math.sin(dLong / 2.0), 2);
+        double dLong = (paraLong - deLong) * d2r;
+        double dLat = (paraLat - deLat) * d2r;
+        double a = Math.pow(Math.sin(dLat / 2.0), 2) + Math.cos(deLat * d2r)
+                * Math.cos(paraLat * d2r) * Math.pow(Math.sin(dLong / 2.0), 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double d = 6367000 * c;
         return Math.round(d);
     }
+
 
     private class MarcadorListener implements GoogleMap.OnMarkerClickListener {
 
@@ -160,7 +157,7 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
             MarkerOptions markerOptions = marcacoes.get(Integer.parseInt(marker.getId().replaceAll("m", "")));
 
             if (markerOptions.isVisible() && !marker.getId().endsWith("0")) {
-                Intent intent = new Intent(LocalizacaoPostosMap.this, InformacoesPosto.class);
+                Intent intent = new Intent(EncontrarPostosMapaActivity.this, InformacoesPostoActivity.class);
                 // Inserindo o id do posto pra proxima tela e substituindo o 'm' do nome da marcacao por nada
                 intent.putExtra("posto", postos.get(Integer.parseInt(marker.getId().replaceAll("m", "")) - 1));
 
@@ -174,7 +171,7 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
+        // "Infla" os itens do menu, para usar na barra de acao
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_action_bar, menu);
         return super.onCreateOptionsMenu(menu);
@@ -182,10 +179,10 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
+        // Trata os click nos itens da barra de acao.
         switch (item.getItemId()) {
             case R.id.menu_relatorio:
-                startActivity(new Intent(this, VisualizarRelatorio.class));
+                startActivity(new Intent(this, VisualizarRelatorioActivity.class));
                 return true;
             // 16908332 é o id do botão de seta para voltar.
             case 16908332:

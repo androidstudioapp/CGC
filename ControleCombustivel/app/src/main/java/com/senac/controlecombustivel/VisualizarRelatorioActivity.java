@@ -24,7 +24,7 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class VisualizarRelatorio extends ActionBarActivity {
+public class VisualizarRelatorioActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

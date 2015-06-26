@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.senac.controlecombustivel.InformacoesPosto"
+    tools:context="com.senac.controlecombustivel.InformacoesPostoActivity"
     android:orientation="vertical"
     android:weightSum="1"
     android:background="#fff">

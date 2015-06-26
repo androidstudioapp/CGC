@@ -26,7 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class InformacoesPosto extends ActionBarActivity {
+public class InformacoesPostoActivity extends ActionBarActivity {
 
     private EditText et_gasolinaPreco;
     private EditText et_etanolPreco;
@@ -165,7 +165,7 @@ public class InformacoesPosto extends ActionBarActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.menu_relatorio:
-                startActivity(new Intent(this, VisualizarRelatorio.class));
+                startActivity(new Intent(this, VisualizarRelatorioActivity.class));
                 return true;
             // 16908332 é o id do botão de seta para voltar.
             case 16908332:
