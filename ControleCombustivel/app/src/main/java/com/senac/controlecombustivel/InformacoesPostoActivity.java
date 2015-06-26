@@ -107,7 +107,7 @@ public class InformacoesPostoActivity extends ActionBarActivity {
                 Log.d("DEBUGANDO CLICK 'OK'", "Gasolina ok " + preco);
 
                 combustiveis.get(0).setPreco(preco);
-                WebService.atualizarTipoaCombustivel(combustiveis.get(0), idAndroid);
+                WebService.atualizarTiposCombustivel(combustiveis.get(0), idAndroid);
 
                 Toast.makeText(this, "Preco da Gasolina atualizada", Toast.LENGTH_SHORT).show();
                 break;
@@ -116,7 +116,7 @@ public class InformacoesPostoActivity extends ActionBarActivity {
                 Log.d("DEBUGANDO CLICK 'OK'", "Etanol ok " + preco);
 
                 combustiveis.get(1).setPreco(preco);
-                WebService.atualizarTipoaCombustivel(combustiveis.get(1), idAndroid);
+                WebService.atualizarTiposCombustivel(combustiveis.get(1), idAndroid);
 
                 Toast.makeText(this, "Preco do Etanol atualizado", Toast.LENGTH_LONG).show();
                 break;
@@ -125,7 +125,7 @@ public class InformacoesPostoActivity extends ActionBarActivity {
                 Log.d("DEBUGANDO CLICK 'OK'", "GNV ok " + preco);
 
                 combustiveis.get(2).setPreco(preco);
-                WebService.atualizarTipoaCombustivel(combustiveis.get(2), idAndroid);
+                WebService.atualizarTiposCombustivel(combustiveis.get(2), idAndroid);
 
                 Toast.makeText(this, "Preco do GNV atualizado", Toast.LENGTH_LONG).show();
                 break;

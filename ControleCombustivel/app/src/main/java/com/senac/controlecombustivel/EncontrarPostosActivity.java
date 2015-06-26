@@ -36,8 +36,9 @@ public class EncontrarPostosActivity extends ActionBarActivity {
             // Ask user to enable GPS/network in settings.
             gps.showSettingsAlert();
         }
+
         GoogleMap mapa = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa))
-                .getMap();
+                        .getMap();
 
         mapa.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
     }

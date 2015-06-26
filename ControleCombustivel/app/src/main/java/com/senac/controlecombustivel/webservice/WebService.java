@@ -32,13 +32,11 @@ public class WebService {
     private static final String ATUALIZAR_PRECO = "atualizarPreco";
     private static final String INSERIR_ABASTECIMENTO = "inserirAbastecimento";
     private static final String RELATORIO = "relatorio";
-    private static final String SEPARADOR = "/";
     private static final String VALOR_TOTAL_ABASTECIDO = "valorTotalAbastecido";
     private static final String POSTO_MAIS_USADO = "postoMaisUsado";
     private static final String COMBUSTIVEL_MAIS_USADO = "combustivelMaisUsado";
 
-    public WebService() {
-    }
+    private static final String SEPARADOR = "/";
 
     /**
      * Acessa o web service, o método get postos que retorna todos postos cadastrados no banco no formato json
@@ -117,8 +115,8 @@ public class WebService {
                 // Os objetos Tipo e Combustivel estão com id zerado, para melhorar a performance
                 // e nao buscar atributos que nao serao utilizados
                 TiposCombustivel tiposCombustivel = new TiposCombustivel(id, null, preco,
-                        new Tipo(0, nomeTipo),
-                        new Combustivel(0, nomeCombustivel));
+                                                                        new Tipo(0, nomeTipo),
+                                                                        new Combustivel(0, nomeCombustivel));
 
                 tiposCombustiveis.add(i, tiposCombustivel);
             } catch (JSONException e) {
@@ -129,7 +127,7 @@ public class WebService {
         return tiposCombustiveis;
     }
 
-    public static void atualizarTipoaCombustivel(TiposCombustivel tiposCombustivel, String id_android) {
+    public static void atualizarTiposCombustivel(TiposCombustivel tiposCombustivel, String id_android) {
         String jsonObjectString = "{\"ID\":\"" + tiposCombustivel.getId() + "\"," +
                 "\"PRECO\":\"" + tiposCombustivel.getPreco() + "\"," +
                 "\"ID_ANDROID\":\"" + id_android + "\"}";
@@ -148,7 +146,6 @@ public class WebService {
 
         new WebServicePOST().execute(URL + INSERIR_ABASTECIMENTO + SEPARADOR + CHAVE, jsonObjectString);
     }
-
     /**
      * Acessa o web service, o método get postos que retorna todos abastecimentos de um android
      * id cadastrados no banco no formato json
