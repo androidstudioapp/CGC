@@ -23,7 +23,6 @@ public class LocalizacaoPostos extends ActionBarActivity {
     private double latitude;
     private double longitude;
 
-    @SuppressLint("ShowToast")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +43,7 @@ public class LocalizacaoPostos extends ActionBarActivity {
         GoogleMap mapa = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa))
                 .getMap();
 
-        mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 12.0f));
+        mapa.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
     }
 
     /**

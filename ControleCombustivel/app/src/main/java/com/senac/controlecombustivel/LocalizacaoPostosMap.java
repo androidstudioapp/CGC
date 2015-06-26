@@ -35,6 +35,7 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
     private List<Posto> postos;
 
     private LatLng posicao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,11 +125,11 @@ public class LocalizacaoPostosMap extends ActionBarActivity {
         mMap.addCircle(new CircleOptions()
                 .center(posicao)
                 .radius(1000)
-                .fillColor(Color.argb(50, 196, 0, 12))
+                .fillColor(Color.argb(100, 255, 169, 31))
                 .strokeWidth(1));
 
         // Dando zoom no mapa.
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(posicao, 14.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(posicao));
 
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(posicao)

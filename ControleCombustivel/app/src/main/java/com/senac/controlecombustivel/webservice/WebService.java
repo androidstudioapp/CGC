@@ -26,7 +26,6 @@ public class WebService {
 
     private static final String CHAVE = "WSd55069b2050e1559c7846b75b6544104";
 
-    private static final String POSTO = "posto";
     private static final String POSTOS = "postos";
     private static final String TIPO_COMBUSTIVEL = "tipoCombustivel";
     private static final String TIPO_COMBUSTIVEL_POR_POSTO = "tipoCombustivelPorPosto";
@@ -118,8 +117,8 @@ public class WebService {
                 // Os objetos Tipo e Combustivel estão com id zerado, para melhorar a performance
                 // e nao buscar atributos que nao serao utilizados
                 TiposCombustivel tiposCombustivel = new TiposCombustivel(id, null, preco,
-                                                    new Tipo(0, nomeTipo),
-                                                    new Combustivel(0, nomeCombustivel));
+                        new Tipo(0, nomeTipo),
+                        new Combustivel(0, nomeCombustivel));
 
                 tiposCombustiveis.add(i, tiposCombustivel);
             } catch (JSONException e) {
@@ -224,10 +223,10 @@ public class WebService {
                 // Os objetos Posto, Tipo e Combustivel estão com os atributos nulos e zerados,
                 // para melhorar a performance e nao recuperar do web service, dados que nao serao utilizados
                 abastecimentos.add(i, new Abastecimento(id, valorTotal, idAndroid, litros,
-                                    new TiposCombustivel(0,
-                                            new Posto(0, null, nomePosto, 0, 0, null), 0,
-                                            new Tipo(0, nomeTipo),
-                                            new Combustivel(0, nomeCombustivel)), data));
+                        new TiposCombustivel(0,
+                                new Posto(0, null, nomePosto, 0, 0, null), 0,
+                                new Tipo(0, nomeTipo),
+                                new Combustivel(0, nomeCombustivel)), data));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
