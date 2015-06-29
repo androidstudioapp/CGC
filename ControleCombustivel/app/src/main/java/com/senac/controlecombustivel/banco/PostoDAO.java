@@ -62,7 +62,6 @@ public class PostoDAO extends BackupSQLiteHelper {
             cursor.moveToFirst();
         }
 
-        cursor.close();
         banco.close();
 
         return new Posto(
