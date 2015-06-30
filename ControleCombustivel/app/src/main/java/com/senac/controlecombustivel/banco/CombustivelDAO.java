@@ -24,12 +24,9 @@ public class CombustivelDAO extends BackupSQLiteHelper {
     public void inserirCombustivel(Combustivel combustivel) {
         SQLiteDatabase banco = this.getWritableDatabase();
 
-        ContentValues valores = new ContentValues();
+        String query = "INSERT INTO COMBUSTIVEIS (ID, NOME) VALUES (?,?)";
 
-        valores.put(CHAVE_ID, combustivel.getId());
-        valores.put(CHAVE_NOME, combustivel.getNome());
-
-        banco.insert(TABELA_COMBUSTIVEIS, null, valores);
+        banco.rawQuery(query, new String[] {String.valueOf(combustivel.getId()), combustivel.getNome()});
 
         banco.close();
     }

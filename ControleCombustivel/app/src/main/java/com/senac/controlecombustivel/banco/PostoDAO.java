@@ -4,10 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.senac.controlecombustivel.model.Bandeira;
 import com.senac.controlecombustivel.model.Posto;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,16 +36,15 @@ public class PostoDAO extends BackupSQLiteHelper {
     public void inserirPosto(Posto posto) {
         SQLiteDatabase banco = this.getWritableDatabase();
 
-        ContentValues valores = new ContentValues();
+        String query = "INSERT INTO POSTOS (ID, NOME, ENDERECO, ID_BANDEIRA, LATITUDE, LONGITUDE) " +
+                        "VALUES (?,?,?,?,?,?)";
 
-        valores.put(CHAVE_ID, posto.getId());
-        valores.put(CHAVE_NOME, posto.getNome());
-        valores.put(CHAVE_ENDERECO, posto.getEndereco());
-        valores.put(CHAVE_ID_BANDEIRA, posto.getBandeira().getId());
-        valores.put(CHAVE_LATITUDE, posto.getLatitude());
-        valores.put(CHAVE_LONGITUDE, posto.getLongitude());
-
-        banco.insert(TABELA_POSTOS, null, valores);
+        banco.rawQuery(query, new String[] {String.valueOf(posto.getId()),
+                                            posto.getNome(),
+                                            posto.getEndereco(),
+                                            String.valueOf(posto.getBandeira().getId()),
+                                            String.valueOf(posto.getLatitude()),
+                                            String.valueOf(posto.getLongitude())});
 
         banco.close();
     }
@@ -62,9 +63,7 @@ public class PostoDAO extends BackupSQLiteHelper {
             cursor.moveToFirst();
         }
 
-        banco.close();
-
-        return new Posto(
+        Posto posto = new Posto(
                 cursor.getInt(cursor.getColumnIndex(CHAVE_ID)),
                 cursor.getString(cursor.getColumnIndex(CHAVE_ENDERECO)),
                 cursor.getString(cursor.getColumnIndex(CHAVE_NOME)),
@@ -73,18 +72,25 @@ public class PostoDAO extends BackupSQLiteHelper {
                 new Bandeira(cursor.getInt(cursor.getColumnIndex(CHAVE_ID_BANDEIRA)),
                         cursor.getString(cursor.getColumnIndex(CHAVE_BANDEIRA_NOME)))
         );
+
+        banco.close();
+
+        return posto;
     }
 
     public List<Posto> getPostos() {
         List<Posto> postos = new LinkedList<>();
 
-        String query = "SELECT * FROM " + TABELA_POSTOS;
+        String query = "SELECT POSTOS.*,BANDEIRAS.NOME AS BANDEIRA FROM POSTOS\n" +
+                        "INNER JOIN BANDEIRAS\n" +
+                        "ON BANDEIRAS.ID = POSTOS.ID_BANDEIRA";
 
         SQLiteDatabase banco = this.getWritableDatabase();
         Cursor cursor = banco.rawQuery(query, null);
 
         Posto posto = null;
-        if (cursor != null) {
+
+        if (cursor != null && cursor.moveToFirst()) {
             do {
                 posto = new Posto(
                         cursor.getInt(cursor.getColumnIndex(CHAVE_ID)),
@@ -99,9 +105,7 @@ public class PostoDAO extends BackupSQLiteHelper {
                 postos.add(posto);
             } while (cursor.moveToNext());
         }
-
         banco.close();
-        cursor.close();
 
         return postos;
     }

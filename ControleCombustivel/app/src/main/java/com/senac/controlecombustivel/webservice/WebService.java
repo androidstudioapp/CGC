@@ -38,10 +38,10 @@ public class WebService {
 
     private static final String SEPARADOR = "/";
 
-    private static final String BACKUP_BANDEIRAS = "backupBandeiras";
-    private static final String BACKUP_TIPOS = "backupTipos";
-    private static final String BACKUP_COMBUSTIVEIS = "backupCombustiveis";
-    private static final String BACKUP_POSTOS = "backupPostos";
+    private static final String BACKUP_BANDEIRAS = "BACKUP_BANDEIRAS";
+    private static final String BACKUP_TIPOS = "BACKUP_TIPOS";
+    private static final String BACKUP_COMBUSTIVEIS = "BACKUP_COMBUSTIVEIS";
+    private static final String BACKUP_POSTOS = "BACKUP_POSTOS";
 
     /**
      * Acessa o web service, o método get postos que retorna todos postos cadastrados no banco no formato json
@@ -120,8 +120,8 @@ public class WebService {
                 // Os objetos Tipo e Combustivel estão com id zerado, para melhorar a performance
                 // e nao buscar atributos que nao serao utilizados
                 TiposCombustivel tiposCombustivel = new TiposCombustivel(id, null, preco,
-                                                                        new Tipo(0, nomeTipo),
-                                                                        new Combustivel(0, nomeCombustivel));
+                        new Tipo(0, nomeTipo),
+                        new Combustivel(0, nomeCombustivel));
 
                 tiposCombustiveis.add(i, tiposCombustivel);
             } catch (JSONException e) {
@@ -244,7 +244,7 @@ public class WebService {
 
         JSONObject jsonObjectPostos = null;
         try {
-            jsonObjectPostos = new WebServiceGET().execute(URL + BACKUP_POSTOS + SEPARADOR + CHAVE).get();
+            jsonObjectPostos = new WebServiceGET().execute(URL + SEPARADOR + BACKUP_POSTOS + SEPARADOR + CHAVE).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -282,11 +282,10 @@ public class WebService {
 
         JSONObject jsonObjectBandeiras = null;
         try {
-            jsonObjectBandeiras = new WebServiceGET().execute(URL + BACKUP_BANDEIRAS + SEPARADOR + CHAVE).get();
+            jsonObjectBandeiras = new WebServiceGET().execute(URL + SEPARADOR + BACKUP_BANDEIRAS + SEPARADOR + CHAVE).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-
 
         JSONArray jsonArrayBandeiras = null;
         try {
@@ -316,7 +315,7 @@ public class WebService {
 
         JSONObject jsonObjectTipos = null;
         try {
-            jsonObjectTipos = new WebServiceGET().execute(URL + BACKUP_TIPOS + SEPARADOR + CHAVE).get();
+            jsonObjectTipos = new WebServiceGET().execute(URL + SEPARADOR + BACKUP_TIPOS + SEPARADOR + CHAVE).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -350,7 +349,7 @@ public class WebService {
 
         JSONObject jsonObjectCombustiveis = null;
         try {
-            jsonObjectCombustiveis = new WebServiceGET().execute(URL + BACKUP_COMBUSTIVEIS + SEPARADOR + CHAVE).get();
+            jsonObjectCombustiveis = new WebServiceGET().execute(URL + SEPARADOR + BACKUP_COMBUSTIVEIS + SEPARADOR + CHAVE).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }

@@ -23,12 +23,9 @@ public class TipoDAO extends BackupSQLiteHelper {
     public void inserirTipo(Tipo tipo) {
         SQLiteDatabase banco = this.getWritableDatabase();
 
-        ContentValues valores = new ContentValues();
+        String query = "INSERT INTO TIPOS (ID, NOME) VALUES (?,?)";
 
-        valores.put(CHAVE_ID, tipo.getId());
-        valores.put(CHAVE_NOME, tipo.getNome());
-
-        banco.insert(TABELA_TIPO, null, valores);
+        banco.rawQuery(query, new String[] {String.valueOf(tipo.getId()), tipo.getNome()});
 
         banco.close();
     }
