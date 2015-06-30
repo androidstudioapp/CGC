@@ -147,6 +147,9 @@ public class InformacoesPostoActivity extends ActionBarActivity {
             WebService.inserirAbastecimento(new Abastecimento(valorTotal, idAndroid, litros, tiposCombustivel, data));
 
             Toast.makeText(this, "Abastecimento inserido", Toast.LENGTH_LONG).show();
+
+            startActivity(getIntent());
+            finish();
         } else {
             Toast.makeText(this, "Valor total nulo", Toast.LENGTH_LONG).show();
         }
