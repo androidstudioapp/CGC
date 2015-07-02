@@ -8,11 +8,8 @@ import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Locale;
 
-/**
- * Created by Dantieris on 29/06/2015.
- */
 public class BackupLog extends BackupSQLiteHelper {
 
     private static final String CHAVE_DATA = "DATA";
@@ -22,20 +19,20 @@ public class BackupLog extends BackupSQLiteHelper {
         super(context);
     }
 
-    public void inserirBackupLog(Date data) {
+    public void inserirBackupLog(Calendar data) {
         Log.d("INSERINDO BACKUP LOG", data.toString());
         SQLiteDatabase banco = this.getWritableDatabase();
 
         ContentValues valores = new ContentValues();
 
-        valores.put(CHAVE_DATA, new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(data));
+        valores.put(CHAVE_DATA, new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(data.getTime()));
 
         banco.insertOrThrow(TABELA_BACKUP_LOG, null, valores);
 
         banco.close();
     }
 
-    public Date getUltimaData() {
+    public Calendar getUltimaData() {
         String query = "SELECT " + CHAVE_DATA + " FROM " + TABELA_BACKUP_LOG + " ORDER BY " + CHAVE_DATA + " DESC LIMIT 0,1";
 
         SQLiteDatabase banco = this.getReadableDatabase();
@@ -45,7 +42,7 @@ public class BackupLog extends BackupSQLiteHelper {
         if (cursor != null && cursor.moveToFirst()) {
             String dataString = cursor.getString(0);
 
-            Date data = converterStringParaData(dataString);
+            Calendar data = converterStringParaData(dataString);
 
             banco.close();
             cursor.close();
@@ -56,7 +53,6 @@ public class BackupLog extends BackupSQLiteHelper {
         } else {
             Log.d("SELECIONANDO BACKUP LOG", "nulo");
             banco.close();
-            cursor.close();
             return null;
         }
     }
@@ -72,21 +68,17 @@ public class BackupLog extends BackupSQLiteHelper {
         banco.close();
     }
 
-    private Date converterStringParaData(String dataString) {
+    private Calendar converterStringParaData(String dataString) {
         String dataArray [] = dataString.split("-");
 
         int ano = Integer.parseInt(dataArray[0]);
-        int dia = Integer.parseInt(dataArray[1]);
-        int mes = Integer.parseInt(dataArray[2]);
-        int hora = Integer.parseInt(dataArray[3]);
-        int minuto = Integer.parseInt(dataArray[4]);
-        int segundo = Integer.parseInt(dataArray[5]);
+        int mes = Integer.parseInt(dataArray[1]);
+        int dia = Integer.parseInt(dataArray[2]);
 
         Calendar c = Calendar.getInstance();
 
-        c.set(ano, mes, dia, hora, minuto, segundo);
-
-        return c.getTime();
+        c.set(ano, mes - 1, dia);
+        return c;
     }
 
 }

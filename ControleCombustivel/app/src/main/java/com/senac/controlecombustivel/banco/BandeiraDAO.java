@@ -65,5 +65,15 @@ public class BandeiraDAO extends BackupSQLiteHelper {
         return bandeiras;
     }
 
+    public void deletarBandeiras() {
+        SQLiteDatabase banco = this.getWritableDatabase();
+
+        banco.delete(TABELA_BANDEIRA, "", new String[]{});
+
+        Log.d("DELETANDO", "Deletando BANDEIRAS.");
+
+        banco.close();
+    }
+
 
 }

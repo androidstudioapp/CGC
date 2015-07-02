@@ -1,6 +1,7 @@
 package com.senac.controlecombustivel.webservice;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -12,6 +13,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 
 public class WebServiceGET extends AsyncTask<String, Void, JSONObject> {
 
@@ -36,13 +38,18 @@ public class WebServiceGET extends AsyncTask<String, Void, JSONObject> {
 
             // Pega o input stream de dados da url, e passa para uma string.
             if (urlConnection.getDoInput()) {
-                InputStream inputStream;
-                inputStream = new BufferedInputStream(urlConnection.getInputStream());
-                jsonString = lerStream(inputStream);
-                inputStream.close();
+                try {
+                    InputStream inputStream;
+                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                    jsonString = lerStream(inputStream);
+                    inputStream.close();
+                } catch (UnknownHostException e) {
+                    return null;
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
 
         // Transforma a string da url para um json array.

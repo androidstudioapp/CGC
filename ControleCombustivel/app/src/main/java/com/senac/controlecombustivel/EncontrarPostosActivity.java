@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,10 +27,9 @@ import com.senac.controlecombustivel.model.Tipo;
 import com.senac.controlecombustivel.webservice.WebService;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class EncontrarPostosActivity extends ActionBarActivity {
 
@@ -43,8 +41,7 @@ public class EncontrarPostosActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_encontrar_postos);
 
-        //Log.d("BT - 1", "Chamando o metodo fazBackupSeNecessario()");
-        //fazBackupSeNecessario();
+        fazBackupSeNecessario();
 
         GPSTracker gps = new GPSTracker(EncontrarPostosActivity.this);
 
@@ -67,46 +64,46 @@ public class EncontrarPostosActivity extends ActionBarActivity {
 
     private void fazBackupSeNecessario() {
         BackupLog backupLog = new BackupLog(this);
-        Log.d("BT - 2", "Dentro do fazBackupSeNecessario, criando o banco e pegando a ultima data e a data de agora.");
 
-        Date dataUltimoBackup = backupLog.getUltimaData();
+        Calendar dataUltimoBackup = backupLog.getUltimaData();
 
-        Date agora = Calendar.getInstance().getTime();
+        Calendar agora = Calendar.getInstance();
 
-        int dataAtual = Integer.parseInt(agora.getYear() + "" + agora.getMonth() + "" + agora.getDay());
-
-        Log.d("BT - 3", "Data agora " +agora);
-
-        // Se a data do ultimo backup NÃO for nula
-        // verifica se ela é mais é anterior a data atual,
+        // Se a data do ultimo backup NÃƒO for nula
+        // verifica se ela Ã© mais Ã© anterior a data atual,
         // se for, realiza o backup.
         if (dataUltimoBackup != null) {
-            Log.d("BT - 4", "UltimoBackup diferente de nulo.");
 
-            if (dataUltimoBackup.before(agora)) {
-                Log.d("BT - 5", "UltimoBackup é antes do agora. Entao realizaBackup()");
+            if (dataBackupAnteriorAtual(dataUltimoBackup)) {
                 realizaBackup();
                 // Insere na tabela BACKUP LOG a ultima data de backup.
                 backupLog.inserirBackupLog(agora);
-            } else {
-                Log.d("BT - 6", "Não realizar o back. DELETANDO TABELA BACKUP LOG.");
-                backupLog.deletarBackupLog();
             }
         // Se a data do ultimo backup retornar nula,
         // realiza o backup, e insere a data de ultimo backup.
         } else {
-            Log.d("BT - 8", "Ultimo Backup é nulo ");
-            Log.d("BT - 9", "Realizando o primeiro backup do aplicativo. Data de hoje " + agora.toString());
             realizaBackup();
             // Insere na tabela BACKUP LOG a ultima data de backup.
             backupLog.inserirBackupLog(agora);
-            backupLog.getUltimaData();
         }
     }
 
+    private boolean dataBackupAnteriorAtual(Calendar dataUltimoBackup) {
+        Calendar atual = Calendar.getInstance();
+
+        if (atual.get(Calendar.YEAR) > dataUltimoBackup.get(Calendar.YEAR))
+            return true;
+
+        if (atual.get(Calendar.MONTH) > dataUltimoBackup.get(Calendar.MONTH))
+            return true;
+
+        return atual.get(Calendar.DAY_OF_MONTH) > dataUltimoBackup.get(Calendar.DAY_OF_MONTH);
+    }
+
     private void realizaBackup() {
-        Log.d("BT - 10", "Realizar backup local.");
-        // Realiza backup das tabelas
+        // Deleta os valores nas tabelas
+        new BackupSQLiteHelper(this).truncateDatabase();
+        // Insere o backup nas tabelas
         backupBandeiras(WebService.getBackupBandeiras());
         backupTipos(WebService.getBackupTipos());
         backupCombustiveis(WebService.getBackupCombustiveis());

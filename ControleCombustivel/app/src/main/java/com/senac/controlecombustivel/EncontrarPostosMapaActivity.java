@@ -1,7 +1,10 @@
 package com.senac.controlecombustivel;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -17,6 +20,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.senac.controlecombustivel.banco.PostoDAO;
 import com.senac.controlecombustivel.model.Posto;
 import com.senac.controlecombustivel.webservice.WebService;
 
@@ -57,7 +61,12 @@ public class EncontrarPostosMapaActivity extends ActionBarActivity {
     }
 
     private void addMarcacoesPostos() {
-        postos = WebService.getPostos();
+        postos = WebService.getPostos(this);
+
+        if (postos == null) {
+            PostoDAO banco = new PostoDAO(this);
+            postos = banco.getPostos();
+        }
 
         for (Posto p : postos) {
             if (calcularDistancia(latitude, longitude, p.getLatitude(), p.getLongitude()) <= 1000) {

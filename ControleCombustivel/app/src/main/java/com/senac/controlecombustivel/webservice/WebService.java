@@ -1,7 +1,9 @@
 package com.senac.controlecombustivel.webservice;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.senac.controlecombustivel.banco.PostoDAO;
 import com.senac.controlecombustivel.model.Abastecimento;
 import com.senac.controlecombustivel.model.Bandeira;
 import com.senac.controlecombustivel.model.Combustivel;
@@ -14,6 +16,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,7 +55,7 @@ public class WebService {
      *
      * @return
      */
-    public static List<Posto> getPostos() {
+    public static List<Posto> getPostos(Context context) {
         List<Posto> postos = new ArrayList<>();
 
         JSONObject jsonObjectPostos = null;
@@ -59,34 +65,40 @@ public class WebService {
             e.printStackTrace();
         }
 
+        // Se o json Object Postos não é nulo, é pq retornou algo do web service.
+        if (jsonObjectPostos != null) {
+            JSONArray jsonArrayPostos = null;
 
-        JSONArray jsonArrayPostos = null;
-        try {
-            jsonArrayPostos = jsonObjectPostos.getJSONArray(POSTOS);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        for (int i = 0; i < jsonArrayPostos.length(); i++) {
             try {
-                JSONObject jsonPosto = jsonArrayPostos.getJSONObject(i);
-
-                int id = jsonPosto.getInt("ID");
-                String endereco = jsonPosto.getString("ENDERECO");
-                String nome = jsonPosto.getString("NOME");
-                double latitude = jsonPosto.getDouble("LATITUDE");
-                double longitude = jsonPosto.getDouble("LONGITUDE");
-
-                int idBandeira = jsonPosto.getInt("ID_BANDEIRA");
-                String nomeBandeira = jsonPosto.getString("BANDEIRA");
-
-                postos.add(i, new Posto(id, endereco, nome, latitude, longitude, new Bandeira(idBandeira, nomeBandeira)));
+                jsonArrayPostos = jsonObjectPostos.getJSONArray(POSTOS);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
+            for (int i = 0; i < jsonArrayPostos.length(); i++) {
+                try {
+                    JSONObject jsonPosto = jsonArrayPostos.getJSONObject(i);
+
+                    int id = jsonPosto.getInt("ID");
+                    String endereco = jsonPosto.getString("ENDERECO");
+                    String nome = jsonPosto.getString("NOME");
+                    double latitude = jsonPosto.getDouble("LATITUDE");
+                    double longitude = jsonPosto.getDouble("LONGITUDE");
+
+                    int idBandeira = jsonPosto.getInt("ID_BANDEIRA");
+                    String nomeBandeira = jsonPosto.getString("BANDEIRA");
+
+                    postos.add(i, new Posto(id, endereco, nome, latitude, longitude, new Bandeira(idBandeira, nomeBandeira)));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            return postos;
+        // Se o json Object Postos é nulo, é por que o WebService ta indisponivel, ou o dispositivo ta sem conexão
+        } else {
+            return null;
         }
-        return postos;
     }
 
     public static List<TiposCombustivel> getCombustiveisPorPosto(int idPosto) {
@@ -376,4 +388,5 @@ public class WebService {
         }
         return backupCombustiveis;
     }
+
 }

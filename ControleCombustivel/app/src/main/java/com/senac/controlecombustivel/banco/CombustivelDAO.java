@@ -3,6 +3,7 @@ package com.senac.controlecombustivel.banco;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.senac.controlecombustivel.model.Combustivel;
 import com.senac.controlecombustivel.model.Tipo;
@@ -27,6 +28,16 @@ public class CombustivelDAO extends BackupSQLiteHelper {
         String query = "INSERT INTO COMBUSTIVEIS (ID, NOME) VALUES (?,?)";
 
         banco.rawQuery(query, new String[] {String.valueOf(combustivel.getId()), combustivel.getNome()});
+
+        banco.close();
+    }
+
+    public void deletarCombustiveis() {
+        SQLiteDatabase banco = this.getWritableDatabase();
+
+        banco.delete(TABELA_COMBUSTIVEIS, "", new String[]{});
+
+        Log.d("DELETANDO", "Deletando COMBUSTIVEIS.");
 
         banco.close();
     }

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class BackupSQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int VERSAO_BANCO_DADOS = 1;
+    private static final int VERSAO_BANCO_DADOS = 2;
     private static final String BANCO_DADOS_NOME = "BACKUP";
 
     public BackupSQLiteHelper(Context context) {
@@ -24,7 +24,7 @@ public class BackupSQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase banco) {
-        String CREATE_TABLE_BACKUP_LOG = "CREATE TABLE BACKUP_LOG (ID INTEGER AUTOINCREMENT," +
+        String CREATE_TABLE_BACKUP_LOG = "CREATE TABLE BACKUP_LOG (ID INTEGER AUTOINCREMENT PRIMARY KEY," +
                                                                 "DATA TEXT)"; // Trabalhar o atributo DATA com o formato  YYYY-MM-DD HH:MM:SS
 
         String CREATE_TABLE_POSTOS = "CREATE TABLE POSTOS ( ID INTEGER PRIMARY KEY," +
@@ -64,6 +64,19 @@ public class BackupSQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase banco, int antigaVersao, int novaVersao) {
+        banco.execSQL("DROP TABLE IF EXISTS BACKUP_LOG");
+        banco.execSQL("DROP TABLE IF EXISTS POSTOS");
+        banco.execSQL("DROP TABLE IF EXISTS BANDEIRAS");
+        banco.execSQL("DROP TABLE IF EXISTS TIPOS");
+        banco.execSQL("DROP TABLE IF EXISTS COMBUSTIVEIS");
+        banco.execSQL("DROP TABLE IF EXISTS TIPOS_COMBUSTIVEL");
+
+        this.onCreate(banco);
+    }
+
+    public void truncateDatabase() {
+        SQLiteDatabase banco = this.getWritableDatabase();
+
         banco.execSQL("DROP TABLE IF EXISTS BACKUP_LOG");
         banco.execSQL("DROP TABLE IF EXISTS POSTOS");
         banco.execSQL("DROP TABLE IF EXISTS BANDEIRAS");
